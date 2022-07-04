@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "985699191779",
+    "project_id": "dor-app-d5544",
+    "storage_bucket": "dor-app-d5544.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:985699191779:android:edd6c793ccc950c2b9aed6",
+        "android_client_info": {
+          "package_name": "com.example.dor_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "985699191779-senltfkvs4648n7nb03795kftjidlc7b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCeC-Sl2ONTdEYIWvnqGuHOPzAkvREcLbg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "985699191779-senltfkvs4648n7nb03795kftjidlc7b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
