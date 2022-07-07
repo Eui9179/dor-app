@@ -1,7 +1,6 @@
 import 'package:dor_app/ui/dynamic_widget/card/game_card.dart';
 import 'package:dor_app/ui/dynamic_widget/font/subject_title.dart';
 import 'package:flutter/material.dart';
-
 import '../../../utils/color_palette.dart';
 
 const List<String> _userGameList = [

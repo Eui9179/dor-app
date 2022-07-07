@@ -3,7 +3,6 @@ import 'package:dor_app/ui/dynamic_widget/font/font.dart';
 import 'package:dor_app/ui/dynamic_widget/icon_button/more_icon_button.dart';
 import 'package:dor_app/ui/dynamic_widget/icon_button/send_icon_button.dart';
 import 'package:dor_app/ui/dynamic_widget/font/subject_title.dart';
-import 'package:dor_app/ui/static_widget/dor_avatar.dart';
 import 'package:dor_app/utils/color_palette.dart';
 import 'package:flutter/material.dart';
 

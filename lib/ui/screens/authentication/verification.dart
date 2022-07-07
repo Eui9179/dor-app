@@ -1,11 +1,14 @@
 import 'package:dor_app/main.dart';
-import 'package:dor_app/ui/static_widget/dor_logo.dart';
+import 'package:dor_app/ui/dynamic_widget/button/rounded_button.dart';
+import 'package:dor_app/ui/screens/authentication/auth_bar.dart';
+import 'package:dor_app/ui/screens/authentication/signup/step1_profile.dart';
 import 'package:dor_app/utils/color_palette.dart';
 import 'package:dor_app/utils/notification.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:pinput/pinput.dart';
+import '../../../utils/page_route_animation.dart';
 import '../../dynamic_widget/font/font.dart';
 
 class Verification extends StatefulWidget {
@@ -27,6 +30,7 @@ class _VerificationState extends State<Verification> {
 
   String _verificationCode = "";
   String _smsCode = "";
+  bool btnEnabled = false;
 
   @override
   void initState() {
@@ -60,12 +64,7 @@ class _VerificationState extends State<Verification> {
 
     return Scaffold(
         backgroundColor: ColorPalette.mainBackgroundColor,
-        appBar: AppBar(
-          backgroundColor: ColorPalette.mainBackgroundColor,
-          elevation: 0.0,
-          centerTitle: true,
-          title: const DorLogo(),
-        ),
+        appBar: const AuthBar(),
         body: Container(
           padding: const EdgeInsets.all(15.0),
           child: Column(
@@ -80,7 +79,6 @@ class _VerificationState extends State<Verification> {
                       height: 100,
                       margin: const EdgeInsets.only(top: 30),
                       child: Pinput(
-                        autofocus: true,
                         length: 6,
                         validator: (value) {
                           if (value == null ||
@@ -90,22 +88,28 @@ class _VerificationState extends State<Verification> {
                           }
                           return null;
                         },
-                        defaultPinTheme: defaultPinTheme,
-                        focusedPinTheme: focusedPinTheme,
-                        submittedPinTheme: submittedPinTheme,
-                        pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
-                        showCursor: true,
                         onCompleted: (pin) {
                           setState(() {
                             _smsCode = pin;
                           });
                         },
+                        onChanged: (val) {
+                          val.length == 6
+                              ? setState(() => btnEnabled = true)
+                              : setState(() => btnEnabled = false);
+                        },
+                        defaultPinTheme: defaultPinTheme,
+                        focusedPinTheme: focusedPinTheme,
+                        submittedPinTheme: submittedPinTheme,
+                        pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
+                        showCursor: true,
+                        autofocus: true,
                       ),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Font(text: "010 ${widget.phoneNumber}", size: 20),
+                        Font(text: widget.phoneNumber, size: 20),
                         TextButton(
                           onPressed: () {
                             _verifyPhone();
@@ -121,26 +125,7 @@ class _VerificationState extends State<Verification> {
                     const SizedBox(
                       height: 20,
                     ),
-                    OutlinedButton(
-                      style: OutlinedButton.styleFrom(
-                          fixedSize: const Size(400, 50),
-                          primary: Colors.black,
-                          backgroundColor: Colors.white,
-                          shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(25)))),
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          _signin();
-                        } else {
-                          notification(context, '코드를 확인해 주세요');
-                        }
-                      },
-                      child: const Text(
-                        "계속",
-                        style: TextStyle(fontSize: 23),
-                      ),
-                    ),
+                    RoundedButton(btnEnabled: btnEnabled, onPressed: _onPressed, text: "계속"),
                   ],
                 ),
               ),
@@ -151,7 +136,7 @@ class _VerificationState extends State<Verification> {
 
   _verifyPhone() async {
     await _auth.verifyPhoneNumber(
-        phoneNumber: '+82010${widget.phoneNumber}',
+        phoneNumber: widget.phoneNumber,
         verificationCompleted: (PhoneAuthCredential credential) async {
           await _auth.signInWithCredential(credential).then((value) {
             Navigator.pushAndRemoveUntil(
@@ -163,9 +148,9 @@ class _VerificationState extends State<Verification> {
         verificationFailed: (FirebaseAuthException e) {
           print(e.message);
         },
-        codeSent: (String? verficationID, int? resendToken) {
+        codeSent: (String? verificationID, int? resendToken) {
           setState(() {
-            _verificationCode = verficationID!;
+            _verificationCode = verificationID!;
           });
         },
         codeAutoRetrievalTimeout: (String verificationID) {
@@ -182,7 +167,7 @@ class _VerificationState extends State<Verification> {
           .signInWithCredential(PhoneAuthProvider.credential(
               verificationId: _verificationCode, smsCode: _smsCode))
           .then((value) {
-        // 전화번호로 데이터 베이스 찾고 유저 아이디 저장
+        //TODO GET: 전화번호로 데이터 베이스 찾고 유저 아이디 저장
         storage.write(key: "isLogin", value: "eui");
         Navigator.pushAndRemoveUntil(context,
             MaterialPageRoute(builder: (context) => MyApp()), (route) => false);
@@ -190,6 +175,38 @@ class _VerificationState extends State<Verification> {
     } catch (e) {
       FocusScope.of(context).unfocus();
       notification(context, '코드를 확인해 주세요');
+    }
+  }
+
+  _signup() async {
+    try {
+      await _auth
+          .signInWithCredential(PhoneAuthProvider.credential(
+              verificationId: _verificationCode, smsCode: _smsCode))
+          .then((value) {
+        //TODO GET: 전화번호로 데이터 베이스 찾고 이미 있으면 로그인
+        // storage.write(key: "isLogin", value: "eui");
+        //TODO POST: 전화번호로 데이터 베이스 찾고 없으면 회원가입
+        PageRouteWithAnimation pageRouteWithAnimation =
+            PageRouteWithAnimation(Step1Profile());
+        Navigator.push(context, pageRouteWithAnimation.slideRitghtToLeft());
+      });
+    } catch (e) {
+      FocusScope.of(context).unfocus();
+      notification(context, '코드를 확인해 주세요');
+    }
+  }
+
+  _onPressed() {
+    if (_formKey.currentState!.validate()) {
+      switch (widget.type) {
+        case "login":
+          _signin();
+          break;
+        case "signup":
+          _signup();
+          break;
+      }
     }
   }
 }

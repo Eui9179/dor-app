@@ -1,3 +1,5 @@
+import 'package:dor_app/ui/dynamic_widget/button/rounded_button.dart';
+import 'package:dor_app/ui/screens/authentication/auth_bar.dart';
 import 'package:dor_app/ui/static_widget/dor_logo.dart';
 import 'package:dor_app/utils/color_palette.dart';
 import 'package:dor_app/utils/notification.dart';
@@ -9,6 +11,7 @@ import 'verification.dart';
 
 class InputPhoneNumber extends StatefulWidget {
   final String type;
+
   const InputPhoneNumber({Key? key, required this.type}) : super(key: key);
 
   @override
@@ -17,7 +20,8 @@ class InputPhoneNumber extends StatefulWidget {
 
 class _InputPhoneNumberState extends State<InputPhoneNumber> {
   final _formKey = GlobalKey<FormState>();
-  var _phoneNumber = "";
+  String _phoneNumber = "";
+  bool btnEnabled = false;
 
   @override
   Widget build(BuildContext context) {
@@ -27,14 +31,10 @@ class _InputPhoneNumberState extends State<InputPhoneNumber> {
     const focusedBorder = UnderlineInputBorder(
       borderSide: BorderSide(color: Colors.white),
     );
+
     return Scaffold(
         backgroundColor: ColorPalette.mainBackgroundColor,
-        appBar: AppBar(
-          backgroundColor: ColorPalette.mainBackgroundColor,
-          elevation: 0.0,
-          centerTitle: true,
-          title: const DorLogo(),
-        ),
+        appBar: const AuthBar(),
         body: Container(
           padding: const EdgeInsets.all(15.0),
           child: Column(
@@ -53,19 +53,24 @@ class _InputPhoneNumberState extends State<InputPhoneNumber> {
                         inputFormatters: <TextInputFormatter>[
                           FilteringTextInputFormatter.digitsOnly
                         ],
-                        autovalidateMode: AutovalidateMode.always,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) {
                           if (value == null ||
                               value.isEmpty ||
                               value.length != 8) {
-                            return "전화 번호 8자리 입력";
+                            return "전입화 번호 8자리 력";
                           }
                           return null;
                         },
                         onSaved: (val) {
                           setState(() {
-                            _phoneNumber = val!;
+                            _phoneNumber = "+82010$val";
                           });
+                        },
+                        onChanged: (val) {
+                          val.length == 8
+                              ? setState(() => btnEnabled = true)
+                              : setState(() => btnEnabled = false);
                         },
                         style: const TextStyle(
                             fontSize: 30.0, height: 2.0, color: Colors.white),
@@ -75,7 +80,6 @@ class _InputPhoneNumberState extends State<InputPhoneNumber> {
                           prefixStyle:
                               TextStyle(color: Colors.white, fontSize: 30),
                           prefixText: "010 ",
-                          errorStyle: TextStyle(color: Colors.white),
                         ),
                       ),
                     ),
@@ -91,37 +95,22 @@ class _InputPhoneNumberState extends State<InputPhoneNumber> {
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 50),
-                    OutlinedButton(
-                      style: OutlinedButton.styleFrom(
-                          fixedSize: const Size(400, 50),
-                          primary: Colors.black,
-                          backgroundColor: Colors.white,
-                          shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(25)))),
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          _formKey.currentState!.save();
-
-                          PageRouteWithAnimation pageRouteWithAnimation =
-                              PageRouteWithAnimation(
-                                  Verification(phoneNumber: _phoneNumber, type: widget.type,));
-                          Navigator.push(context,
-                              pageRouteWithAnimation.slideRitghtToLeft());
-                        } else {
-                          notification(context, "전화번호를 확인해 주세요");
-                        }
-                      },
-                      child: const Text(
-                        "계속",
-                        style: TextStyle(fontSize: 23),
-                      ),
-                    ),
+                    RoundedButton(btnEnabled: btnEnabled, onPressed: _onPressed, text: "계속")
                   ],
                 ),
               ),
             ],
           ),
         ));
+  }
+
+  _onPressed() {
+    _formKey.currentState!.save();
+    PageRouteWithAnimation pageRouteWithAnimation =
+        PageRouteWithAnimation(Verification(
+      phoneNumber: _phoneNumber,
+      type: widget.type,
+    ));
+    Navigator.push(context, pageRouteWithAnimation.slideRitghtToLeft());
   }
 }

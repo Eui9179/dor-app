@@ -4,14 +4,15 @@ import 'package:dor_app/utils/color_palette.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class Login extends StatelessWidget {
-  const Login({Key? key}) : super(key: key);
+class LoginPage extends StatelessWidget {
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: ColorPalette.mainBackgroundColor,
     ));
+
     return Scaffold(
         resizeToAvoidBottomInset: false,
         body: Stack(
@@ -25,7 +26,7 @@ class Login extends StatelessWidget {
                       fit: BoxFit.cover),
                 ),
                 child: Container(
-                  constraints: BoxConstraints.expand(),
+                  constraints: const BoxConstraints.expand(),
                   decoration: const BoxDecoration(
                     gradient: LinearGradient(
                       begin: Alignment.topCenter,
@@ -58,14 +59,10 @@ class Login extends StatelessWidget {
                 right: 20,
                 child: OutlinedButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const InputPhoneNumber(type: "login",)),
-                    );
+                    _login(context);
                   },
                   style: OutlinedButton.styleFrom(
-                      fixedSize: Size(350, 50),
+                      fixedSize: const Size(350, 50),
                       primary: Colors.black,
                       backgroundColor: Colors.white,
                       shape: const RoundedRectangleBorder(
@@ -81,15 +78,11 @@ class Login extends StatelessWidget {
                 right: 20,
                 child: OutlinedButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const InputPhoneNumber(type: "signup")),
-                      );
+                      _signup(context);
                     },
                     style: OutlinedButton.styleFrom(
-                        side: BorderSide(width: 2.0, color: Colors.white),
-                        fixedSize: Size(50, 50),
+                        side: const BorderSide(width: 2.0, color: Colors.white),
+                        fixedSize: const Size(50, 50),
                         primary: Colors.white,
                         backgroundColor: Colors.transparent,
                         shape: const RoundedRectangleBorder(
@@ -101,5 +94,23 @@ class Login extends StatelessWidget {
                     ))),
           ],
         ));
+  }
+
+  _login(context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => const InputPhoneNumber(
+                type: "login",
+              )),
+    );
+  }
+
+  _signup(context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => const InputPhoneNumber(type: "signup")),
+    );
   }
 }

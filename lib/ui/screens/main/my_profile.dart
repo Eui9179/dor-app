@@ -26,7 +26,7 @@ class MyProfile extends StatelessWidget {
         ProfileAvatar(
           image: "assets/images/test.jpg",
         ),
-        const SizedBox(
+        SizedBox(
           height: 15,
         ),
         Text("이의찬",

@@ -1,4 +1,4 @@
-import 'package:dor_app/ui/screens/authentication/login.dart';
+import 'package:dor_app/ui/screens/authentication/login_screen.dart';
 import 'package:dor_app/ui/screens/main/main.dart';
 import 'package:dor_app/utils/color_palette.dart';
 import 'package:flutter/material.dart';
@@ -72,7 +72,7 @@ class _DorAppState extends State<DorApp> {
     }
 
     if (userId == null) { // 로그인 안한 유저
-      return const Login();
+      return const LoginPage();
     } else {
       return Main();
     }
