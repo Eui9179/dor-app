@@ -2,6 +2,8 @@ import 'package:dor_app/ui/dynamic_widget/card/game_card.dart';
 import 'package:dor_app/ui/dynamic_widget/font/subject_title.dart';
 import 'package:flutter/material.dart';
 
+import '../../../utils/color_palette.dart';
+
 const List<String> _userGameList = [
   "leagueoflegends.jpg",
   "valorant.jpg",
@@ -17,7 +19,26 @@ class MyGameList extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SubjectTitle(title: "게임 목록"),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const SubjectTitle(title: "게임 목록"),
+            Padding(
+              padding: const EdgeInsets.only(right: 20.0),
+              child: IconButton(
+                  onPressed: () => {},
+                  tooltip: "친구 동기화",
+                  padding: EdgeInsets.zero,
+                  // 패딩 삭제
+                  constraints: const BoxConstraints(),
+                  // 패딩 삭제
+                  splashRadius: 15,
+                  icon: const Icon(Icons.add,
+                      color: ColorPalette.font, size: 22)),
+            )
+          ],
+        ),
+
         Container(
           margin: const EdgeInsets.symmetric(vertical: 20.0),
           height: 250.0,

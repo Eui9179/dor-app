@@ -15,7 +15,7 @@ class GameCard extends StatelessWidget {
           child: Stack(children: [
             ColorFiltered(
               colorFilter: ColorFilter.mode(
-                  Colors.black87.withOpacity(0.5), BlendMode.srcOver),
+                  Colors.black87.withOpacity(0.4), BlendMode.srcOver),
               child: Image.asset(
                 "assets/images/game/$gameName",
                 width: 160,

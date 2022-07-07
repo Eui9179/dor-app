@@ -36,7 +36,7 @@ class MyFriendList extends StatelessWidget {
                       constraints: const BoxConstraints(),
                       // 패딩 삭제
                       splashRadius: 20,
-                      icon: const Icon(Icons.person_add_outlined,
+                      icon: const Icon(Icons.person_add,
                           color: ColorPalette.font, size: 22)),
                   const SizedBox(width: 10)
                 ],

@@ -10,7 +10,7 @@ class MoreIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: onPressed,
-      splashRadius: 25,
+      splashRadius: 20,
       tooltip: "더보기",
       padding: EdgeInsets.zero,
       constraints: BoxConstraints(),

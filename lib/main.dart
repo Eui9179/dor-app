@@ -1,9 +1,10 @@
+import 'package:dor_app/ui/screens/authentication/login.dart';
 import 'package:dor_app/ui/screens/main/main.dart';
-import 'package:dor_app/ui/screens/main/main_bar.dart';
 import 'package:dor_app/utils/color_palette.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: '',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.blueGrey,
       ),
       home: const DorApp(),
       debugShowCheckedModeBanner: false,
@@ -42,14 +43,38 @@ class DorApp extends StatefulWidget {
 }
 
 class _DorAppState extends State<DorApp> {
+  String? userId;
+  bool isLoading = true;
+  static final storage = new FlutterSecureStorage();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _asyncMethod();
+    });
+  }
+
+  _asyncMethod() async {
+    userId = await storage.read(key: "isLogin");
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: ColorPalette.mainBackgroundColor,
-      appBar: MainBar(),
-      body: SingleChildScrollView(
-        child: Main(),
-      ),
-    );
+    if (isLoading) {
+      return const Scaffold(
+        backgroundColor: ColorPalette.mainBackgroundColor,
+        body: Center(child: Text("Loading...")),
+      );
+    }
+
+    if (userId == null) { // 로그인 안한 유저
+      return const Login();
+    } else {
+      return Main();
+    }
   }
 }
