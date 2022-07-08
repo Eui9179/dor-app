@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../utils/color_palette.dart';
 import '../../static_widget/dor_logo.dart';
 
-class AuthBar extends StatelessWidget implements PreferredSizeWidget  {
-  const AuthBar({Key? key}) : super(key: key);
+class LogoAppBar extends StatelessWidget implements PreferredSizeWidget  {
+  const LogoAppBar({Key? key}) : super(key: key);
 
   @override
   Size get preferredSize => const Size.fromHeight(70);

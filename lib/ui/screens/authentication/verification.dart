@@ -1,6 +1,6 @@
 import 'package:dor_app/main.dart';
 import 'package:dor_app/ui/dynamic_widget/button/rounded_button.dart';
-import 'package:dor_app/ui/screens/authentication/auth_bar.dart';
+import 'package:dor_app/ui/layout/app_bar/logo_app_bar.dart';
 import 'package:dor_app/ui/screens/authentication/signup/step1_profile.dart';
 import 'package:dor_app/utils/color_palette.dart';
 import 'package:dor_app/utils/notification.dart';
@@ -64,13 +64,17 @@ class _VerificationState extends State<Verification> {
 
     return Scaffold(
         backgroundColor: ColorPalette.mainBackgroundColor,
-        appBar: const AuthBar(),
+        appBar: const LogoAppBar(),
         body: Container(
           padding: const EdgeInsets.all(15.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Font(text: "내 코드 입력", size: 35),
+              const SizedBox(
+                height: 5,
+              ),
+              const Font(text: "메세지 도착까지 최대 1분정도 소요됩니다.", size: 10),
               Form(
                 key: _formKey,
                 child: Column(
@@ -125,7 +129,10 @@ class _VerificationState extends State<Verification> {
                     const SizedBox(
                       height: 20,
                     ),
-                    RoundedButton(btnEnabled: btnEnabled, onPressed: _onPressed, text: "계속"),
+                    RoundedButton(
+                        btnEnabled: btnEnabled,
+                        onPressed: _onPressed,
+                        text: "계속"),
                   ],
                 ),
               ),
@@ -187,8 +194,11 @@ class _VerificationState extends State<Verification> {
         //TODO GET: 전화번호로 데이터 베이스 찾고 이미 있으면 로그인
         // storage.write(key: "isLogin", value: "eui");
         //TODO POST: 전화번호로 데이터 베이스 찾고 없으면 회원가입
+
         PageRouteWithAnimation pageRouteWithAnimation =
-            PageRouteWithAnimation(Step1Profile());
+            PageRouteWithAnimation(Step1Profile(
+          phoneNumber: widget.phoneNumber,
+        ));
         Navigator.push(context, pageRouteWithAnimation.slideRitghtToLeft());
       });
     } catch (e) {

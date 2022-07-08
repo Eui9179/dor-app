@@ -15,12 +15,5 @@ class ProfileAvatar extends StatelessWidget {
         radius: 45.0,
       ),
     );
-    // return ClipRRect(
-    //   borderRadius: BorderRadius.circular(30.0),
-    //   child: Container(
-    //       width: width,
-    //       height: height,
-    //       child: Image.asset('assets/images/test.jpg', fit: BoxFit.cover)),
-    // );
   }
 }

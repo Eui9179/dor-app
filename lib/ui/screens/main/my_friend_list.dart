@@ -14,7 +14,7 @@ class MyFriendList extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
+        const SizedBox(
           height: 8,
         ),
         Padding(
@@ -46,7 +46,7 @@ class MyFriendList extends StatelessWidget {
         ListView.builder(
             shrinkWrap: true,
             itemExtent: 65.0, // 아이템간 간격
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             itemCount: userSet.length,
             itemBuilder: (BuildContext context, int index) {
               return ListTile(
@@ -58,7 +58,7 @@ class MyFriendList extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       SendIconButton(onPressed: () => {}),
-                      SizedBox(
+                      const SizedBox(
                         width: 5,
                       ),
                       MoreIconButton(onPressed: () => {}),

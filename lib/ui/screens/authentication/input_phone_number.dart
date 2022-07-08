@@ -1,5 +1,6 @@
 import 'package:dor_app/ui/dynamic_widget/button/rounded_button.dart';
-import 'package:dor_app/ui/screens/authentication/auth_bar.dart';
+import 'package:dor_app/ui/layout/app_bar/logo_app_bar.dart';
+import 'package:dor_app/ui/screens/authentication/signup/step1_profile.dart';
 import 'package:dor_app/ui/static_widget/dor_logo.dart';
 import 'package:dor_app/utils/color_palette.dart';
 import 'package:dor_app/utils/notification.dart';
@@ -34,7 +35,7 @@ class _InputPhoneNumberState extends State<InputPhoneNumber> {
 
     return Scaffold(
         backgroundColor: ColorPalette.mainBackgroundColor,
-        appBar: const AuthBar(),
+        appBar: const LogoAppBar(),
         body: Container(
           padding: const EdgeInsets.all(15.0),
           child: Column(
@@ -87,7 +88,7 @@ class _InputPhoneNumberState extends State<InputPhoneNumber> {
                       "로그인 및 회원가입을 하면 DOR 이용약관에 동의하는 것으로 간주 됩니다. "
                       "DOR의 회원 정보 처리방식은 개인정보 처리 방침 및 쿠키 정책을 확인해 보세요. "
                       "계속하기를 누르면 인증코드를 문자 메세지로 전송합니다. "
-                      "인증이 완료된 전화번호는 dOR에 로그인 할 수 있습니다.",
+                      "인증이 완료된 전화번호는 DOR에 로그인 할 수 있습니다.",
                       style: TextStyle(
                         fontSize: 14,
                         color: Color.fromARGB(255, 172, 172, 172),
@@ -95,7 +96,10 @@ class _InputPhoneNumberState extends State<InputPhoneNumber> {
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 50),
-                    RoundedButton(btnEnabled: btnEnabled, onPressed: _onPressed, text: "계속")
+                    RoundedButton(
+                        btnEnabled: btnEnabled,
+                        onPressed: _onPressed,
+                        text: "계속")
                   ],
                 ),
               ),
@@ -105,11 +109,16 @@ class _InputPhoneNumberState extends State<InputPhoneNumber> {
   }
 
   _onPressed() {
+    // TODO: 주석
     _formKey.currentState!.save();
+    // PageRouteWithAnimation pageRouteWithAnimation =
+    //     PageRouteWithAnimation(Verification(
+    //   phoneNumber: _phoneNumber,
+    //   type: widget.type,
+    // ));
     PageRouteWithAnimation pageRouteWithAnimation =
-        PageRouteWithAnimation(Verification(
+        PageRouteWithAnimation(Step1Profile(
       phoneNumber: _phoneNumber,
-      type: widget.type,
     ));
     Navigator.push(context, pageRouteWithAnimation.slideRitghtToLeft());
   }
