@@ -59,7 +59,7 @@ class _InputPhoneNumberState extends State<InputPhoneNumber> {
                           if (value == null ||
                               value.isEmpty ||
                               value.length != 8) {
-                            return "전입화 번호 8자리 력";
+                            return "전입화 번호 8자리 입력";
                           }
                           return null;
                         },
@@ -109,7 +109,7 @@ class _InputPhoneNumberState extends State<InputPhoneNumber> {
   }
 
   _onPressed() {
-    // TODO: 주석
+    // TODO: 주석 verification 으로 처리해야됨
     _formKey.currentState!.save();
     // PageRouteWithAnimation pageRouteWithAnimation =
     //     PageRouteWithAnimation(Verification(

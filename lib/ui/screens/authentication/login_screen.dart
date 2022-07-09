@@ -100,9 +100,7 @@ class LoginPage extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => const InputPhoneNumber(
-                type: "login",
-              )),
+          builder: (context) => const InputPhoneNumber(type: "login")),
     );
   }
 

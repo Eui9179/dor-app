@@ -1,10 +1,9 @@
 import 'package:dor_app/ui/dynamic_widget/font/subject_title.dart';
-import 'package:dor_app/ui/dynamic_widget/input/outline_input.dart';
-import 'package:dor_app/ui/layout/app_bar/text_app_bar.dart';
 import 'package:dor_app/utils/color_palette.dart';
+import 'package:dor_app/utils/page_route_animation.dart';
 import 'package:flutter/material.dart';
+import '../../../../main.dart';
 import '../../../../utils/functions.dart';
-import '../../../dynamic_widget/font/font.dart';
 
 const List<String> gameList = [
   "leagueoflegends.jpg",
@@ -33,9 +32,7 @@ const List<String> gameList = [
 ];
 
 class Step3Game extends StatefulWidget {
-  final Map profileData;
-
-  const Step3Game({Key? key, required this.profileData}) : super(key: key);
+  const Step3Game({Key? key}) : super(key: key);
 
   @override
   State<Step3Game> createState() => _Step3GameState();
@@ -61,7 +58,7 @@ class _Step3GameState extends State<Step3Game> {
           ),
           actions: [
             IconButton(
-                onPressed: () {},
+                onPressed: _onPressed,
                 icon: const Icon(
                   Icons.navigate_next_rounded,
                   size: 30,
@@ -143,34 +140,12 @@ class _Step3GameState extends State<Step3Game> {
           ),
         ));
   }
-}
 
-class FilteredImage extends StatelessWidget {
-  const FilteredImage(
-      {Key? key, required this.imageWidget, required this.isFiltered})
-      : super(key: key);
-  final Widget imageWidget;
-  final bool isFiltered;
-
-  @override
-  Widget build(BuildContext context) {
-    if (isFiltered) {
-      return Stack(children: [
-        ColorFiltered(
-          colorFilter: ColorFilter.mode(
-              Colors.blueAccent.withOpacity(0.4), BlendMode.srcOver),
-          child: imageWidget,
-        ),
-        const Positioned.fill(
-          child: Align(
-            alignment: Alignment.center,
-            child:
-                Icon(Icons.check_circle_outline, color: Colors.white, size: 20),
-          ),
-        ),
-      ]);
-    } else {
-      return imageWidget;
-    }
+  _onPressed() {
+    // TODO: 게임 서버에 저장
+    PageRouteWithAnimation pageRouteWithAnimation =
+        PageRouteWithAnimation(MyApp());
+    Navigator.pushAndRemoveUntil(
+        context, pageRouteWithAnimation.slideLeftToRight(), (route) => false);
   }
 }

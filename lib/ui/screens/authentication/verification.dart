@@ -24,7 +24,7 @@ class Verification extends StatefulWidget {
 class _VerificationState extends State<Verification> {
   _VerificationState({Key? key});
 
-  static final storage = new FlutterSecureStorage();
+  static const storage = FlutterSecureStorage();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final _formKey = GlobalKey<FormState>();
 
@@ -193,6 +193,7 @@ class _VerificationState extends State<Verification> {
           .then((value) {
         //TODO GET: 전화번호로 데이터 베이스 찾고 이미 있으면 로그인
         // storage.write(key: "isLogin", value: "eui");
+
         //TODO POST: 전화번호로 데이터 베이스 찾고 없으면 회원가입
 
         PageRouteWithAnimation pageRouteWithAnimation =

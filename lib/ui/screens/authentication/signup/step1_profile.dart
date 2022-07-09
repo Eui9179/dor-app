@@ -4,6 +4,7 @@ import 'package:dor_app/ui/dynamic_widget/button/rounded_button.dart';
 import 'package:dor_app/ui/dynamic_widget/input/outline_input.dart';
 import 'package:dor_app/ui/dynamic_widget/input/outline_input_readonly.dart';
 import 'package:dor_app/ui/layout/app_bar/text_app_bar.dart';
+import 'package:dor_app/ui/screens/authentication/signup/step2_tos.dart';
 import 'package:dor_app/ui/screens/authentication/signup/step3_game.dart';
 import 'package:dor_app/utils/color_palette.dart';
 import 'package:dor_app/utils/page_route_animation.dart';
@@ -11,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class Step1Profile extends StatefulWidget {
-  final phoneNumber;
+  final String phoneNumber;
 
   const Step1Profile({Key? key, required this.phoneNumber}) : super(key: key);
 
@@ -148,7 +149,7 @@ class _Step1ProfileState extends State<Step1Profile> {
     _formKey.currentState!.save();
     Map data = _mappedData(_image, _name!, _group!, widget.phoneNumber);
     PageRouteWithAnimation pageRouteWithAnimation =
-        PageRouteWithAnimation(Step3Game(profileData: data));
+        PageRouteWithAnimation(Step2TOS(profileData: data));
     Navigator.push(context, pageRouteWithAnimation.slideRitghtToLeft());
   }
 
