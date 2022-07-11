@@ -5,7 +5,6 @@ import 'package:dor_app/ui/dynamic_widget/input/outline_input.dart';
 import 'package:dor_app/ui/dynamic_widget/input/outline_input_readonly.dart';
 import 'package:dor_app/ui/layout/app_bar/text_app_bar.dart';
 import 'package:dor_app/ui/screens/authentication/signup/step2_tos.dart';
-import 'package:dor_app/ui/screens/authentication/signup/step3_game.dart';
 import 'package:dor_app/utils/color_palette.dart';
 import 'package:dor_app/utils/page_route_animation.dart';
 import 'package:flutter/material.dart';
@@ -155,10 +154,11 @@ class _Step1ProfileState extends State<Step1Profile> {
 
   Map _mappedData(XFile? image, String name, String group, String phoneNumber) {
     return {
-      "image": image ?? "default",
+      "file": image,
       "name": name,
       "group": group,
       "phoneNumber": phoneNumber,
+      "fcmToken": "fcm"
     };
   }
 }

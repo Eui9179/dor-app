@@ -8,9 +8,9 @@ String changeKorGameName(gameName) {
       return "발로란트";
     case "tft":
       return "전략적 팀 전투";
-    case "battleground.jpg":
+    case "battleground":
       return "배틀그라운드";
-    case "lostark.jpg":
+    case "lostark":
       return "로스트아크";
     case "minecraft":
       return "마인크래프트";

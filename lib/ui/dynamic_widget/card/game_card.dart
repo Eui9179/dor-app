@@ -17,17 +17,17 @@ class GameCard extends StatelessWidget {
               colorFilter: ColorFilter.mode(
                   Colors.black87.withOpacity(0.4), BlendMode.srcOver),
               child: Image.asset(
-                "assets/images/game/$gameName",
-                width: 160,
-                height: 250,
+                "assets/images/game/$gameName.jpg",
+                width: 150,
+                height: 230,
                 fit: BoxFit.cover,
               ),
             ),
             Positioned(
-              top: 210,
+              bottom: 10,
               left: 10,
               child: Text(
-                changeKorGameName(gameName.split(".")[0]), // .jpg, .png 제외
+                changeKorGameName(gameName), // .jpg, .png 제외
                 style: TextStyle(color: Colors.white, fontSize: 15),
               ),
             ),

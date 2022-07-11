@@ -1,7 +1,6 @@
 import 'package:dor_app/ui/dynamic_widget/button/rounded_button.dart';
 import 'package:dor_app/ui/layout/app_bar/logo_app_bar.dart';
 import 'package:dor_app/ui/screens/authentication/signup/step1_profile.dart';
-import 'package:dor_app/ui/static_widget/dor_logo.dart';
 import 'package:dor_app/utils/color_palette.dart';
 import 'package:dor_app/utils/notification.dart';
 import 'package:dor_app/utils/page_route_animation.dart';
@@ -11,9 +10,8 @@ import '../../dynamic_widget/font/font.dart';
 import 'verification.dart';
 
 class InputPhoneNumber extends StatefulWidget {
-  final String type;
 
-  const InputPhoneNumber({Key? key, required this.type}) : super(key: key);
+  const InputPhoneNumber({Key? key}) : super(key: key);
 
   @override
   State<InputPhoneNumber> createState() => _InputPhoneNumberState();
@@ -111,15 +109,15 @@ class _InputPhoneNumberState extends State<InputPhoneNumber> {
   _onPressed() {
     // TODO: 주석 verification 으로 처리해야됨
     _formKey.currentState!.save();
-    // PageRouteWithAnimation pageRouteWithAnimation =
-    //     PageRouteWithAnimation(Verification(
-    //   phoneNumber: _phoneNumber,
-    //   type: widget.type,
-    // ));
+
     PageRouteWithAnimation pageRouteWithAnimation =
-        PageRouteWithAnimation(Step1Profile(
+        PageRouteWithAnimation(Verification(
       phoneNumber: _phoneNumber,
     ));
+    // PageRouteWithAnimation pageRouteWithAnimation =
+    //     PageRouteWithAnimation(Step1Profile(
+    //   phoneNumber: _phoneNumber,
+    // ));
     Navigator.push(context, pageRouteWithAnimation.slideRitghtToLeft());
   }
 }

@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+import 'package:dor_app/dio/auth/login.dart';
 import 'package:dor_app/main.dart';
 import 'package:dor_app/ui/dynamic_widget/button/rounded_button.dart';
 import 'package:dor_app/ui/layout/app_bar/logo_app_bar.dart';
@@ -6,16 +8,13 @@ import 'package:dor_app/utils/color_palette.dart';
 import 'package:dor_app/utils/notification.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:pinput/pinput.dart';
 import '../../../utils/page_route_animation.dart';
 import '../../dynamic_widget/font/font.dart';
 
 class Verification extends StatefulWidget {
-  const Verification({Key? key, required this.phoneNumber, required this.type})
-      : super(key: key);
+  const Verification({Key? key, required this.phoneNumber}) : super(key: key);
   final String phoneNumber;
-  final String type;
 
   @override
   State<Verification> createState() => _VerificationState();
@@ -24,7 +23,6 @@ class Verification extends StatefulWidget {
 class _VerificationState extends State<Verification> {
   _VerificationState({Key? key});
 
-  static const storage = FlutterSecureStorage();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final _formKey = GlobalKey<FormState>();
 
@@ -168,56 +166,45 @@ class _VerificationState extends State<Verification> {
         timeout: const Duration(seconds: 120));
   }
 
-  _signin() async {
-    try {
-      await _auth
-          .signInWithCredential(PhoneAuthProvider.credential(
-              verificationId: _verificationCode, smsCode: _smsCode))
-          .then((value) {
-        //TODO GET: 전화번호로 데이터 베이스 찾고 유저 아이디 저장
-        storage.write(key: "isLogin", value: "eui");
-        Navigator.pushAndRemoveUntil(context,
-            MaterialPageRoute(builder: (context) => MyApp()), (route) => false);
-      });
-    } catch (e) {
-      FocusScope.of(context).unfocus();
-      notification(context, '코드를 확인해 주세요');
-    }
-  }
-
-  _signup() async {
-    try {
-      await _auth
-          .signInWithCredential(PhoneAuthProvider.credential(
-              verificationId: _verificationCode, smsCode: _smsCode))
-          .then((value) {
-        //TODO GET: 전화번호로 데이터 베이스 찾고 이미 있으면 로그인
-        // storage.write(key: "isLogin", value: "eui");
-
-        //TODO POST: 전화번호로 데이터 베이스 찾고 없으면 회원가입
-
-        PageRouteWithAnimation pageRouteWithAnimation =
-            PageRouteWithAnimation(Step1Profile(
-          phoneNumber: widget.phoneNumber,
-        ));
-        Navigator.push(context, pageRouteWithAnimation.slideRitghtToLeft());
-      });
-    } catch (e) {
-      FocusScope.of(context).unfocus();
-      notification(context, '코드를 확인해 주세요');
-    }
-  }
-
-  _onPressed() {
+  _onPressed() async {
     if (_formKey.currentState!.validate()) {
-      switch (widget.type) {
-        case "login":
-          _signin();
-          break;
-        case "signup":
-          _signup();
-          break;
+      try {
+        await _auth
+            .signInWithCredential(PhoneAuthProvider.credential(
+                verificationId: _verificationCode, smsCode: _smsCode))
+            .then((value) {
+          Future<dynamic> response = dioApiLogin(widget.phoneNumber);
+          response.then((result) {
+            // TODO: fcm 키 처리
+            if (result == 401) {
+              _signup();
+            } else {
+              _signin(result);
+            }
+          }).catchError((error) {});
+        });
+      } catch (e) {
+        FocusScope.of(context).unfocus();
+        notification(context, '코드를 확인해 주세요');
       }
     }
+  }
+
+  _signup() {
+    PageRouteWithAnimation pageRouteWithAnimation =
+        PageRouteWithAnimation(Step1Profile(
+      phoneNumber: widget.phoneNumber,
+    ));
+    Navigator.push(context, pageRouteWithAnimation.slideRitghtToLeft());
+  }
+
+  _signin(String accessToken) async {
+    storage.write(key: "accessToken", value: accessToken);
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const MyApp(),
+        ),
+        (route) => false);
   }
 }

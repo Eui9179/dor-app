@@ -5,7 +5,7 @@ notification(context, String text){
     SnackBar(
       content: Container(
         padding: EdgeInsets.only(top:5),
-        height: 30,
+        height: 60,
         child: Text(text, style: TextStyle(color: Colors.white, fontSize: 20),),
       ),
       duration: const Duration(seconds: 2),

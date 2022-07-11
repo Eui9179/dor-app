@@ -1,34 +1,37 @@
+import 'package:dio/dio.dart';
+import 'package:dor_app/dio/game/update_my_game_list.dart';
 import 'package:dor_app/ui/dynamic_widget/font/subject_title.dart';
 import 'package:dor_app/utils/color_palette.dart';
+import 'package:dor_app/utils/notification.dart';
 import 'package:dor_app/utils/page_route_animation.dart';
 import 'package:flutter/material.dart';
 import '../../../../main.dart';
 import '../../../../utils/functions.dart';
 
 const List<String> gameList = [
-  "leagueoflegends.jpg",
-  "valorant.jpg",
-  "battleground.jpg",
-  "lostark.jpg",
-  "tft.jpg",
-  "minecraft.jpg",
-  "fifa22.jpg",
-  "overwatch.jpg",
-  "starcraft.jpg",
-  "starcraft2.jpg",
-  "counterstrike.jpg",
-  "apexlegends.jpg",
-  "fortnite.jpg",
-  "gta5.jpg",
-  "dota2.jpg",
-  "fallguys.jpg",
-  "callofduty.jpg",
-  "worldofwarcraft.jpg",
-  "hearthstone.jpg",
-  "maplestory.jpg",
-  "suddenattack.jpg",
-  "dungeonandfighter.jpg",
-  "diablo2.jpg",
+  "leagueoflegends",
+  "battleground",
+  "lostark",
+  "minecraft",
+  "valorant",
+  "fifa22",
+  "tft",
+  "overwatch",
+  "starcraft",
+  "starcraft2",
+  // "counterstrike",
+  // "apexlegends",
+  // "fortnite",
+  // "gta5",
+  // "dota2",
+  "fallguys",
+  // "callofduty",
+  // "worldofwarcraft",
+  "hearthstone",
+  "maplestory",
+  "suddenattack",
+  // "dungeonandfighter",
+  // "diablo2",
 ];
 
 class Step3Game extends StatefulWidget {
@@ -41,6 +44,20 @@ class Step3Game extends StatefulWidget {
 class _Step3GameState extends State<Step3Game> {
   final List<Map> _gameList = List.generate(gameList.length,
       (index) => {'gameName': gameList[index], 'isSelected': false});
+  late final String? _accessToken;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _getAccessToken();
+    });
+  }
+
+  _getAccessToken() async {
+    _accessToken = await storage.read(key: "accessToken");
+    print(_accessToken);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +121,7 @@ class _Step3GameState extends State<Step3Game> {
                                       Colors.black87.withOpacity(0.4),
                                       BlendMode.srcOver),
                               child: Image.asset(
-                                "assets/images/game/${_gameList[index]["gameName"]}",
+                                "assets/images/game/${_gameList[index]["gameName"]}.jpg",
                                 fit: BoxFit.cover,
                                 height: 100,
                                 width: 200,
@@ -114,11 +131,10 @@ class _Step3GameState extends State<Step3Game> {
                               bottom: 3,
                               left: 3,
                               child: Text(
-                                changeKorGameName(
-                                    _gameList[index]["gameName"].split(".")[0]),
+                                changeKorGameName(_gameList[index]["gameName"]),
                                 // .jpg, .png 제외
                                 style: const TextStyle(
-                                    color: Colors.white, fontSize: 20),
+                                    color: Colors.white, fontSize: 15),
                               ),
                             ),
                             _gameList[index]['isSelected']
@@ -141,11 +157,36 @@ class _Step3GameState extends State<Step3Game> {
         ));
   }
 
-  _onPressed() {
-    // TODO: 게임 서버에 저장
-    PageRouteWithAnimation pageRouteWithAnimation =
-        PageRouteWithAnimation(MyApp());
-    Navigator.pushAndRemoveUntil(
-        context, pageRouteWithAnimation.slideLeftToRight(), (route) => false);
+  _onPressed()  {
+    print("_onPressed $_accessToken");
+    Future<bool> response =
+    dioApiUpdateMyGameList(_accessToken, filterSelectedGameList());
+    response.then((result) {
+      print(result.toString());
+      PageRouteWithAnimation pageRouteWithAnimation =
+      PageRouteWithAnimation(MyApp());
+      Navigator.pushAndRemoveUntil(
+          context, pageRouteWithAnimation.slideLeftToRight(), (route) => false);
+    }).catchError((error) {
+      if (error is DioError) {
+        if (error.response != null) {
+          if (error.response?.statusCode == 500) {
+            notification(context, "서버 에러");
+          }
+        }
+      }
+    });
+
+
+  }
+
+  List<String> filterSelectedGameList() {
+    List<String> selectedGameList = [];
+    for (var element in _gameList) {
+      if (element["isSelected"]) {
+        selectedGameList.add(element["gameName"]);
+      }
+    }
+    return selectedGameList;
   }
 }

@@ -51,7 +51,7 @@ class LoginPage extends StatelessWidget {
                 child: Text(
                   "내 주변 게이머를 찾아보세요!",
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 40, color: ColorPalette.font),
+                  style: TextStyle(fontSize: 35, color: ColorPalette.font),
                 )),
             Positioned(
                 top: 580,
@@ -59,7 +59,7 @@ class LoginPage extends StatelessWidget {
                 right: 20,
                 child: OutlinedButton(
                   onPressed: () {
-                    _login(context);
+                    _inputPhoneNumber(context);
                   },
                   style: OutlinedButton.styleFrom(
                       fixedSize: const Size(350, 50),
@@ -78,7 +78,7 @@ class LoginPage extends StatelessWidget {
                 right: 20,
                 child: OutlinedButton(
                     onPressed: () {
-                      _signup(context);
+                      _inputPhoneNumber(context);
                     },
                     style: OutlinedButton.styleFrom(
                         side: const BorderSide(width: 2.0, color: Colors.white),
@@ -96,19 +96,11 @@ class LoginPage extends StatelessWidget {
         ));
   }
 
-  _login(context) {
+  _inputPhoneNumber(context) {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => const InputPhoneNumber(type: "login")),
-    );
-  }
-
-  _signup(context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => const InputPhoneNumber(type: "signup")),
+          builder: (context) => const InputPhoneNumber()),
     );
   }
 }

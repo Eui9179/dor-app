@@ -4,14 +4,17 @@ import 'package:flutter/material.dart';
 class ProfileAvatar extends StatelessWidget {
   const ProfileAvatar({Key? key, required this.image}) : super(key: key);
 
-  final image;
+  final String? image;
 
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
       radius: 45.0,
       child: CircleAvatar(
-        backgroundImage: AssetImage(image),
+        backgroundImage: image != "default"
+            ? NetworkImage("http://172.30.1.4:8000/api/user/profile/image/$image")
+            : const AssetImage("assets/images/logo/dor.jpg")
+                as ImageProvider,
         radius: 45.0,
       ),
     );

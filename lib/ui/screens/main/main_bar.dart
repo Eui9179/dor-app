@@ -2,12 +2,9 @@ import 'package:dor_app/main.dart';
 import 'package:dor_app/ui/static_widget/dor_logo.dart';
 import 'package:dor_app/utils/color_palette.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class MainBar extends StatelessWidget implements PreferredSizeWidget {
   const MainBar({Key? key}) : super(key: key);
-  static final storage = FlutterSecureStorage();
-
   @override
   Size get preferredSize => const Size.fromHeight(70);
 
@@ -49,7 +46,7 @@ class MainBar extends StatelessWidget implements PreferredSizeWidget {
           splashRadius: 25,
           tooltip: '설정',
           onPressed: () {
-            storage.delete(key: "isLogin");
+            storage.delete(key: "accessToken");
             Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(builder: (context) => const MyApp()),

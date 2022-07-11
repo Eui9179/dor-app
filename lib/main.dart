@@ -7,6 +7,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'firebase_options.dart';
 
+const storage = FlutterSecureStorage();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -43,20 +45,20 @@ class DorApp extends StatefulWidget {
 }
 
 class _DorAppState extends State<DorApp> {
-  String? userId;
+  String? accessToken;
   bool isLoading = true;
-  static final storage = new FlutterSecureStorage();
+
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _asyncMethod();
+      _getAccessToken();
     });
   }
 
-  _asyncMethod() async {
-    userId = await storage.read(key: "isLogin");
+  _getAccessToken() async {
+    accessToken = await storage.read(key: "accessToken");
     setState(() {
       isLoading = false;
     });
@@ -71,7 +73,7 @@ class _DorAppState extends State<DorApp> {
       );
     }
 
-    if (userId == null) { // 로그인 안한 유저
+    if (accessToken == null) { // 로그인 안한 유저
       return const LoginPage();
     } else {
       return Main();
