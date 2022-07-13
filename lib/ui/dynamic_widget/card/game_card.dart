@@ -1,4 +1,4 @@
-import 'package:dor_app/utils/functions.dart';
+import 'package:dor_app/utils/dor_games.dart';
 import 'package:flutter/material.dart';
 
 class GameCard extends StatelessWidget {

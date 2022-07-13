@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:dor_app/dio/profile/get_my_profile.dart';
 import 'package:dor_app/ui/dynamic_widget/avatar/profile_avatar.dart';
 import 'package:dor_app/utils/color_palette.dart';
@@ -24,18 +23,7 @@ class _MyProfileState extends State<MyProfile> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _getAccessToken();
-    });
-  }
-
-  _getAccessToken() async {
-    _accessToken = await storage.read(key: "accessToken");
-    Map<String, String> response = await getMyProfile(_accessToken);
-    // print(response);
-    setState(() {
-      name = response["name"];
-      profileImageName = response["profileImageName"];
-      isLoading = false;
+      _initMyProfile();
     });
   }
 
@@ -66,16 +54,41 @@ class _MyProfileState extends State<MyProfile> {
           ProfileAvatar(
             image: profileImageName,
           ),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
-          Text("이의찬",
-              style: TextStyle(
+          Text(name!,
+              style: const TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
                   color: ColorPalette.font)),
         ]),
       );
     }
+  }
+
+  _initMyProfile() async {
+    _accessToken = await storage.read(key: "accessToken");
+    _getMyProfile();
+  }
+
+  _getMyProfile() {
+    Future<Map<String, dynamic>> response = dioApiGetMyProfile(_accessToken);
+    response.then((res) {
+      int statusCode = res["statusCode"];
+      if (statusCode == 200) {
+        Map<String, dynamic> profileData = res["data"];
+        setState(() {
+          name = profileData["name"];
+          profileImageName = profileData["profile_image_name"];
+          isLoading = false;
+        });
+        print(profileData);
+      } else if (statusCode == 401) {
+        notification(context, "다시 로그인 해주세요");
+      } else {
+        print("_getMyProfile() error: $statusCode");
+      }
+    });
   }
 }

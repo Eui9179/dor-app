@@ -29,11 +29,18 @@ class _VerificationState extends State<Verification> {
   String _verificationCode = "";
   String _smsCode = "";
   bool btnEnabled = false;
+  bool isDisposed = false;
 
   @override
   void initState() {
     super.initState();
     _verifyPhone();
+  }
+
+  @override
+  void dispose(){
+    super.dispose();
+    isDisposed = true;
   }
 
   @override
@@ -154,34 +161,42 @@ class _VerificationState extends State<Verification> {
           print(e.message);
         },
         codeSent: (String? verificationID, int? resendToken) {
-          setState(() {
-            _verificationCode = verificationID!;
-          });
+          if(!isDisposed){
+            setState(() {
+              _verificationCode = verificationID!;
+            });
+          }
+
         },
         codeAutoRetrievalTimeout: (String verificationID) {
-          setState(() {
-            _verificationCode = verificationID;
-          });
+          if(!isDisposed){
+            setState(() {
+              _verificationCode = verificationID;
+            });
+          }
+
         },
         timeout: const Duration(seconds: 120));
   }
 
   _onPressed() async {
+    print("verification");
     if (_formKey.currentState!.validate()) {
       try {
         await _auth
             .signInWithCredential(PhoneAuthProvider.credential(
                 verificationId: _verificationCode, smsCode: _smsCode))
             .then((value) {
-          Future<dynamic> response = dioApiLogin(widget.phoneNumber);
+          Future<Map<String, dynamic>> response = dioApiLogin(widget.phoneNumber);
           response.then((result) {
-            // TODO: fcm 키 처리
-            if (result == 401) {
+            int statusCode = result["statusCode"];
+            if (statusCode == 200){
+              _signin(result["data"]);
+            } else if (statusCode == 401){
               _signup();
-            } else {
-              _signin(result);
             }
-          }).catchError((error) {});
+            // TODO: fcm 키 처리
+          });
         });
       } catch (e) {
         FocusScope.of(context).unfocus();

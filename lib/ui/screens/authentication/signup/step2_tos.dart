@@ -132,23 +132,21 @@ class _Step2TOSState extends State<Step2TOS> {
   }
 
   _onPressed() {
-    Future<String> response = dioApiSignup(widget.profileData);
-    response.then((accessToken) {
-      storage.write(key: "accessToken", value: accessToken);
-      PageRouteWithAnimation pageRouteWithAnimation =
-          PageRouteWithAnimation(const Step3Game());
-      Navigator.pushAndRemoveUntil(context,
-          pageRouteWithAnimation.slideRitghtToLeft(), (route) => false);
-    }).catchError((error) {
-      if (error is DioError) {
-        if (error.response != null) {
-          if (error.response!.statusCode == 409) {
-            notification(context, "이미 가입된 회원입니다. 로그인해주세요");
-          } else if (error.response!.statusCode == 500) {
-            notification(context, "서버에러 잠시 후 다시 이용해주세요");
-          }
-        }
+    Future<Map<String, dynamic>> response = dioApiSignup(widget.profileData);
+    response.then((res) {
+      int statusCode = res["statusCode"];
+      if (statusCode == 200){
+        storage.write(key: "accessToken", value: res["data"]);
+        PageRouteWithAnimation pageRouteWithAnimation =
+        PageRouteWithAnimation(const Step3Game());
+        Navigator.pushAndRemoveUntil(context,
+            pageRouteWithAnimation.slideRitghtToLeft(), (route) => false);
+      } else if (statusCode == 409){
+        notification(context, "이미 가입된 회원입니다. 로그인해주세요");
+      } else if (statusCode == 500){
+        notification(context, "죄송합니다. 다시 실행시켜주세요");
       }
+
     });
   }
 

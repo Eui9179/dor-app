@@ -6,33 +6,9 @@ import 'package:dor_app/utils/notification.dart';
 import 'package:dor_app/utils/page_route_animation.dart';
 import 'package:flutter/material.dart';
 import '../../../../main.dart';
-import '../../../../utils/functions.dart';
+import '../../../../utils/dor_games.dart';
 
-const List<String> gameList = [
-  "leagueoflegends",
-  "battleground",
-  "lostark",
-  "minecraft",
-  "valorant",
-  "fifa22",
-  "tft",
-  "overwatch",
-  "starcraft",
-  "starcraft2",
-  // "counterstrike",
-  // "apexlegends",
-  // "fortnite",
-  // "gta5",
-  // "dota2",
-  "fallguys",
-  // "callofduty",
-  // "worldofwarcraft",
-  "hearthstone",
-  "maplestory",
-  "suddenattack",
-  // "dungeonandfighter",
-  // "diablo2",
-];
+List<String> gameList = getDorGameList();
 
 class Step3Game extends StatefulWidget {
   const Step3Game({Key? key}) : super(key: key);
@@ -56,7 +32,6 @@ class _Step3GameState extends State<Step3Game> {
 
   _getAccessToken() async {
     _accessToken = await storage.read(key: "accessToken");
-    print(_accessToken);
   }
 
   @override
@@ -97,7 +72,7 @@ class _Step3GameState extends State<Step3Game> {
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     crossAxisCount: 2,
-                    childAspectRatio: 2 / 1,
+                    childAspectRatio: 2 / 1.1,
                     mainAxisSpacing: 10,
                     crossAxisSpacing: 10,
                     children: List.generate(_gameList.length, (index) {
@@ -123,13 +98,13 @@ class _Step3GameState extends State<Step3Game> {
                               child: Image.asset(
                                 "assets/images/game/${_gameList[index]["gameName"]}.jpg",
                                 fit: BoxFit.cover,
-                                height: 100,
+                                height: 110,
                                 width: 200,
                               ),
                             ),
                             Positioned(
-                              bottom: 3,
-                              left: 3,
+                              bottom: 4,
+                              left: 4,
                               child: Text(
                                 changeKorGameName(_gameList[index]["gameName"]),
                                 // .jpg, .png 제외
@@ -139,8 +114,8 @@ class _Step3GameState extends State<Step3Game> {
                             ),
                             _gameList[index]['isSelected']
                                 ? const Positioned(
-                                    top: 3,
-                                    right: 3,
+                                    top: 4,
+                                    right: 4,
                                     child: Icon(
                                       Icons.check,
                                       color: Colors.white,
@@ -157,27 +132,20 @@ class _Step3GameState extends State<Step3Game> {
         ));
   }
 
-  _onPressed()  {
-    print("_onPressed $_accessToken");
-    Future<bool> response =
-    dioApiUpdateMyGameList(_accessToken, filterSelectedGameList());
-    response.then((result) {
-      print(result.toString());
-      PageRouteWithAnimation pageRouteWithAnimation =
-      PageRouteWithAnimation(MyApp());
-      Navigator.pushAndRemoveUntil(
-          context, pageRouteWithAnimation.slideLeftToRight(), (route) => false);
-    }).catchError((error) {
-      if (error is DioError) {
-        if (error.response != null) {
-          if (error.response?.statusCode == 500) {
-            notification(context, "서버 에러");
-          }
-        }
+  _onPressed() {
+    Future<Map<String, dynamic>> response =
+        dioApiUpdateMyGameList(_accessToken, filterSelectedGameList());
+    response.then((res) {
+      int statusCode = res["statusCode"];
+      if (statusCode == 200) {
+        PageRouteWithAnimation pageRouteWithAnimation =
+            PageRouteWithAnimation(const MyApp());
+        Navigator.pushAndRemoveUntil(context,
+            pageRouteWithAnimation.slideLeftToRight(), (route) => false);
+      } else {
+        print("step3Game _onPressed() error: $statusCode");
       }
     });
-
-
   }
 
   List<String> filterSelectedGameList() {

@@ -1,30 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:dor_app/dio/dio_instance.dart';
 
-Future<Map<String, String>> getMyProfile(accessToken) async {
-  Dio dio = DioInstance().dio;
-  dio.options.headers["content-Type"] = 'application/json';
-  dio.options.headers["authorization"] = "Bearer $accessToken";
-
-  try{
-    Response response = await dio.get('user/profile/me');
-    final jsonData = response.data["me"];
-
-    Map<String, String> myProfileData = {
-      "name": jsonData["name"],
-      "phoneNumber": jsonData["phone_number"],
-      "group": jsonData["group"],
-      "profileImageName": jsonData["profile_image_name"],
-    };
-    return myProfileData;
-  } catch (e) {
-    print(e.toString());
-    Map<String, String> error = {
-      "error":"error"
-    };
-    return error;
-  } finally{
-    dio.close();
+Future<Map<String, dynamic>> dioApiGetMyProfile(accessToken) async {
+  Dio dio = DioInstance(accessToken).dio;
+  Response response = await dio.get('/user/profile/me');
+  try {
+    return {"statusCode": 200, "data": response.data["my_profile"]};
+  } on DioError catch (error) {
+    return {"statusCode": error.response!.statusCode};
   }
-
 }

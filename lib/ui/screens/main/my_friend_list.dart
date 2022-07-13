@@ -1,13 +1,18 @@
+import 'package:contacts_service/contacts_service.dart';
 import 'package:dio/dio.dart';
 import 'package:dor_app/dio/friend/get_my_friend_list.dart';
+import 'package:dor_app/dio/friend/update_my_friend_list.dart';
 import 'package:dor_app/ui/dynamic_widget/avatar/friend_avatar.dart';
+import 'package:dor_app/ui/dynamic_widget/avatar/game_logo_avatar.dart';
 import 'package:dor_app/ui/dynamic_widget/font/font.dart';
 import 'package:dor_app/ui/dynamic_widget/icon_button/more_icon_button.dart';
 import 'package:dor_app/ui/dynamic_widget/icon_button/send_icon_button.dart';
 import 'package:dor_app/ui/dynamic_widget/font/subject_title.dart';
 import 'package:dor_app/utils/color_palette.dart';
 import 'package:dor_app/utils/notification.dart';
+import 'package:dor_app/utils/sync_contacts.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../../main.dart';
 
@@ -36,18 +41,20 @@ class MyFriendList extends StatefulWidget {
 
 class _MyFriendListState extends State<MyFriendList> {
   List<dynamic> _myFriendList = [];
+  List<String?> _myContacts = [];
   late String? _accessToken;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _getAccessTokenAndMyFriendList();
+      _initMyFriendList();
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    List<Map<String, String>> myFriends = [];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -59,13 +66,13 @@ class _MyFriendListState extends State<MyFriendList> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SubjectTitle(title: "내 게임 친구"),
+              const SubjectTitle(title: "내 게임 친구"),
               Row(
                 children: [
                   SubjectTitle(title: _myFriendList.length.toString()),
                   const SizedBox(width: 15),
                   IconButton(
-                      onPressed: () => {},
+                      onPressed: () => {_syncContacts()},
                       tooltip: "친구 동기화",
                       padding: EdgeInsets.zero,
                       // 패딩 삭제
@@ -90,59 +97,91 @@ class _MyFriendListState extends State<MyFriendList> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.baseline,
                   children: [
-                    const Font(text: "내연락처를 ", size: 20),
+                    const Font(text: "내연락처를 ", size: 18),
                     InkWell(
-                        onTap: () {}, // TODO: 동기화 하기
+                        onTap: () {
+                          _syncContacts();
+                        },
                         child: const Text("동기화",
                             style: TextStyle(
-                              fontSize: 23,
+                              fontSize: 22,
                               color: Colors.blueAccent,
                               decoration: TextDecoration.underline,
                             ))),
-                    const Font(text: " 해보세요!", size: 20),
+                    const Font(text: " 해보세요!", size: 18),
                   ],
                 ),
               )
             : ListView.builder(
                 shrinkWrap: true,
                 itemExtent: 65.0,
-                // 아이템간 간격
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: userSet.length,
+                itemCount: _myFriendList.length,
                 itemBuilder: (BuildContext context, int index) {
                   return ListTile(
-                      leading: FriendAvatar(),
-                      title: Font(text: userSet[index]["nickname"], size: 17),
-                      subtitle:
-                          Font(text: userSet[index]["introduction"], size: 13),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          SendIconButton(onPressed: () => {}),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          MoreIconButton(onPressed: () => {}),
-                        ],
-                      ));
+                    leading: FriendAvatar(
+                        image: _myFriendList[index]["profile_image_name"]),
+                    title: Font(text: _myFriendList[index]["name"], size: 17),
+                    subtitle: Font(text: _myFriendList[index]["name"], size: 10),
+                    onTap: () {},
+                  );
                 }),
       ],
     );
   }
 
-  _getAccessTokenAndMyFriendList() async {
+  _initMyFriendList() async {
     _accessToken = await storage.read(key: "accessToken");
     _getMyFriendList();
   }
 
   _getMyFriendList() {
     Future<dynamic> response = dioApiGetMyFriendList(_accessToken);
-    response.then((myFriendList) {
-      setState(() {
-        _myFriendList = myFriendList;
-      });
-    }).catchError((error) {
-      print("_getMyFriendList error: $error");
+    response.then((res) {
+      int statusCode = res["statusCode"];
+      if (statusCode == 200) {
+        setState(() {
+          _myFriendList = res["data"];
+        });
+      } else if (statusCode == 401) {
+        notification(context, "다시 로그인 해주세요");
+      } else {
+        print("_getMyFriendList() error: $statusCode");
+      }
     });
+  }
+
+  _syncContacts() async {
+    var status = await Permission.contacts.status;
+    List<String?> myContacts = [];
+
+    if (status.isGranted) {
+      var contacts = await ContactsService.getContacts();
+      for (var contact in contacts) {
+        if (contact.phones!.isNotEmpty) {
+          myContacts.add(contact.phones!.first.value);
+        }
+      }
+      _myContacts = formattedContacts(myContacts);
+      Future<Map<String, dynamic>> response =
+          dioApiUpdateMyFriendList(_accessToken, _myContacts);
+      response.then((res) {
+        int statusCode = res["statusCode"];
+        if (statusCode == 200) {
+          notification(context, "동기화 완료!", warning: false);
+          _getMyFriendList();
+        } else if (statusCode == 401) {
+          notification(context, "다시 로그인 해주세요");
+        } else {
+          print(statusCode);
+        }
+      });
+    } else if (status.isDenied) {
+      Permission.contacts.request();
+    }
+  }
+
+  _setState() {
+    setState(() {});
   }
 }
