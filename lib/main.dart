@@ -1,10 +1,17 @@
+import 'package:dor_app/pages.dart';
+import 'package:dor_app/ui/screens/authentication/input_phone_number.dart';
 import 'package:dor_app/ui/screens/authentication/login_screen.dart';
-import 'package:dor_app/ui/screens/main/main.dart';
+import 'package:dor_app/ui/screens/authentication/signup/step1_profile.dart';
+import 'package:dor_app/ui/screens/authentication/signup/step2_tos.dart';
+import 'package:dor_app/ui/screens/setting/my_games.dart';
+import 'package:dor_app/ui/screens/authentication/verification.dart';
+import 'package:dor_app/ui/screens/home/main_page.dart';
 import 'package:dor_app/utils/color_palette.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:get/get.dart';
 import 'firebase_options.dart';
 
 const storage = FlutterSecureStorage();
@@ -20,34 +27,33 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: ColorPalette.headerBackgroundColor,
-    ));
-    return MaterialApp(
+    return GetMaterialApp(
       title: '',
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
       ),
-      home: const DorApp(),
       debugShowCheckedModeBanner: false,
+      home: const Home(),
+      initialRoute: '/',
+      getPages: pages,
     );
   }
 }
 
-class DorApp extends StatefulWidget {
-  const DorApp({Key? key}) : super(key: key);
+class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
+  // TODO: 시작 페이지 보여주고 loading 처리
 
   @override
-  State<DorApp> createState() => _DorAppState();
+  State<Home> createState() => _HomeState();
 }
 
-class _DorAppState extends State<DorApp> {
+class _HomeState extends State<Home> {
   String? accessToken;
   bool isLoading = true;
-
+  final formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -57,15 +63,12 @@ class _DorAppState extends State<DorApp> {
     });
   }
 
-  _getAccessToken() async {
-    accessToken = await storage.read(key: "accessToken");
-    setState(() {
-      isLoading = false;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: ColorPalette.headerBackgroundColor,
+    ));
+
     if (isLoading) {
       return const Scaffold(
         backgroundColor: ColorPalette.mainBackgroundColor,
@@ -73,10 +76,18 @@ class _DorAppState extends State<DorApp> {
       );
     }
 
-    if (accessToken == null) { // 로그인 안한 유저
+    if (accessToken == null) {
+      // 로그인 안한 유저
       return const LoginPage();
     } else {
-      return Main();
+      return const MainPage();
     }
+  }
+
+  _getAccessToken() async {
+    accessToken = await storage.read(key: "accessToken");
+    setState(() {
+      isLoading = false;
+    });
   }
 }

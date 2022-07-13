@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:dor_app/dio/auth/login.dart';
 import 'package:dor_app/main.dart';
 import 'package:dor_app/ui/dynamic_widget/button/rounded_button.dart';
@@ -8,19 +7,20 @@ import 'package:dor_app/utils/color_palette.dart';
 import 'package:dor_app/utils/notification.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:pinput/pinput.dart';
 import '../../../utils/page_route_animation.dart';
 import '../../dynamic_widget/font/font.dart';
 
 class Verification extends StatefulWidget {
-  const Verification({Key? key, required this.phoneNumber}) : super(key: key);
-  final String phoneNumber;
+  const Verification({Key? key}) : super(key: key);
 
   @override
   State<Verification> createState() => _VerificationState();
 }
 
 class _VerificationState extends State<Verification> {
+  String _phoneNumber = Get.arguments;
   _VerificationState({Key? key});
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -38,7 +38,7 @@ class _VerificationState extends State<Verification> {
   }
 
   @override
-  void dispose(){
+  void dispose() {
     super.dispose();
     isDisposed = true;
   }
@@ -118,7 +118,7 @@ class _VerificationState extends State<Verification> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Font(text: widget.phoneNumber, size: 20),
+                        Font(text: _phoneNumber, size: 20),
                         TextButton(
                           onPressed: () {
                             _verifyPhone();
@@ -148,33 +148,28 @@ class _VerificationState extends State<Verification> {
 
   _verifyPhone() async {
     await _auth.verifyPhoneNumber(
-        phoneNumber: widget.phoneNumber,
+        phoneNumber: _phoneNumber,
         verificationCompleted: (PhoneAuthCredential credential) async {
           await _auth.signInWithCredential(credential).then((value) {
-            Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => const MyApp()),
-                (route) => false);
+            Get.offAll(const MyApp());
           });
         },
         verificationFailed: (FirebaseAuthException e) {
           print(e.message);
         },
         codeSent: (String? verificationID, int? resendToken) {
-          if(!isDisposed){
+          if (!isDisposed) {
             setState(() {
               _verificationCode = verificationID!;
             });
           }
-
         },
         codeAutoRetrievalTimeout: (String verificationID) {
-          if(!isDisposed){
+          if (!isDisposed) {
             setState(() {
               _verificationCode = verificationID;
             });
           }
-
         },
         timeout: const Duration(seconds: 120));
   }
@@ -187,12 +182,13 @@ class _VerificationState extends State<Verification> {
             .signInWithCredential(PhoneAuthProvider.credential(
                 verificationId: _verificationCode, smsCode: _smsCode))
             .then((value) {
-          Future<Map<String, dynamic>> response = dioApiLogin(widget.phoneNumber);
+          Future<Map<String, dynamic>> response =
+              dioApiLogin(_phoneNumber);
           response.then((result) {
             int statusCode = result["statusCode"];
-            if (statusCode == 200){
+            if (statusCode == 200) {
               _signin(result["data"]);
-            } else if (statusCode == 401){
+            } else if (statusCode == 401) {
               _signup();
             }
             // TODO: fcm 키 처리
@@ -206,20 +202,11 @@ class _VerificationState extends State<Verification> {
   }
 
   _signup() {
-    PageRouteWithAnimation pageRouteWithAnimation =
-        PageRouteWithAnimation(Step1Profile(
-      phoneNumber: widget.phoneNumber,
-    ));
-    Navigator.push(context, pageRouteWithAnimation.slideRitghtToLeft());
+    Get.toNamed('auth/signup/step1', arguments: _phoneNumber);
   }
 
   _signin(String accessToken) async {
     storage.write(key: "accessToken", value: accessToken);
-    Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const MyApp(),
-        ),
-        (route) => false);
+    Get.offAllNamed('/');
   }
 }

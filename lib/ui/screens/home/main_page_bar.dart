@@ -2,9 +2,10 @@ import 'package:dor_app/main.dart';
 import 'package:dor_app/ui/static_widget/dor_logo.dart';
 import 'package:dor_app/utils/color_palette.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class MainBar extends StatelessWidget implements PreferredSizeWidget {
-  const MainBar({Key? key}) : super(key: key);
+class MainPageBar extends StatelessWidget implements PreferredSizeWidget {
+  const MainPageBar({Key? key}) : super(key: key);
   @override
   Size get preferredSize => const Size.fromHeight(70);
 
@@ -34,7 +35,7 @@ class MainBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       actions: [
         IconButton(
-          icon: Icon(Icons.person_add),
+          icon: const Icon(Icons.person_add),
           splashRadius: 25,
           tooltip: '내 주변',
           onPressed: () => {},
@@ -47,15 +48,7 @@ class MainBar extends StatelessWidget implements PreferredSizeWidget {
           tooltip: '설정',
           onPressed: () {
             storage.delete(key: "accessToken");
-            Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) => const MyApp()),
-              (route) => false,
-            );
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(builder: (context) => const Login()),
-            // )
+            Get.offAllNamed('/login');
           },
         ),
         const SizedBox(

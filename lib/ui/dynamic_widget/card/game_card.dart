@@ -9,7 +9,7 @@ class GameCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.only(right: 10.0, bottom: 8.0, top: 8.0),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(8.0),
           child: Stack(children: [

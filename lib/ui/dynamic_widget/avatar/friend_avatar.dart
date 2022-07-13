@@ -8,11 +8,11 @@ class FriendAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(16.0),
+      borderRadius: BorderRadius.circular(30.0),
       child: Container(
-          width: 40,
-          height: 40,
-          color: Colors.black,
+          width: 60,
+          height: 60,
+          color: Colors.black54,
           child: image == "default"
               ? Image.asset('assets/images/logo/dor_default.png',
                   fit: BoxFit.cover)

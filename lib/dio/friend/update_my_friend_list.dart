@@ -8,7 +8,7 @@ Future<Map<String, dynamic>> dioApiUpdateMyFriendList(
   Dio dio = DioInstance(accessToken).dio;
 
   try {
-    Response response = await dio.post('/user/friend/sync', data: jsonEncode(contacts));
+    Response response = await dio.post('user/friend/sync', data: jsonEncode(contacts));
     return {"statusCode": response.statusCode};
   } on DioError catch (error) {
     print(error);

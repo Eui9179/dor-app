@@ -1,12 +1,10 @@
-import 'package:dio/dio.dart';
 import 'package:dor_app/ui/dynamic_widget/button/rounded_button.dart';
 import 'package:dor_app/ui/dynamic_widget/font/font.dart';
 import 'package:dor_app/ui/layout/app_bar/text_app_bar.dart';
-import 'package:dor_app/ui/screens/authentication/signup/step3_game.dart';
+import 'package:dor_app/ui/screens/setting/my_games.dart';
 import 'package:dor_app/utils/color_palette.dart';
-import 'package:dor_app/utils/page_route_animation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../dio/auth/signup.dart';
@@ -14,8 +12,7 @@ import '../../../../main.dart';
 import '../../../../utils/notification.dart';
 
 class Step2TOS extends StatefulWidget {
-  const Step2TOS({Key? key, required this.profileData}) : super(key: key);
-  final Map profileData;
+  const Step2TOS({Key? key}) : super(key: key);
 
   @override
   State<Step2TOS> createState() => _Step2TOSState();
@@ -132,21 +129,17 @@ class _Step2TOSState extends State<Step2TOS> {
   }
 
   _onPressed() {
-    Future<Map<String, dynamic>> response = dioApiSignup(widget.profileData);
+    Future<Map<String, dynamic>> response = dioApiSignup(Get.arguments);
     response.then((res) {
       int statusCode = res["statusCode"];
-      if (statusCode == 200){
+      if (statusCode == 200) {
         storage.write(key: "accessToken", value: res["data"]);
-        PageRouteWithAnimation pageRouteWithAnimation =
-        PageRouteWithAnimation(const Step3Game());
-        Navigator.pushAndRemoveUntil(context,
-            pageRouteWithAnimation.slideRitghtToLeft(), (route) => false);
-      } else if (statusCode == 409){
+        Get.offNamed('/setting/my-games');
+      } else if (statusCode == 409) {
         notification(context, "이미 가입된 회원입니다. 로그인해주세요");
-      } else if (statusCode == 500){
+      } else if (statusCode == 500) {
         notification(context, "죄송합니다. 다시 실행시켜주세요");
       }
-
     });
   }
 

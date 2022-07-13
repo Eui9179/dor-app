@@ -37,7 +37,7 @@ class _MyProfileState extends State<MyProfile> {
       return Container(
         width: double.infinity,
         padding:
-            const EdgeInsets.only(top: 15, left: 15, bottom: 25, right: 15),
+            const EdgeInsets.only(top: 15, bottom: 25, right: 13, left: 13),
         decoration: const BoxDecoration(
             gradient: LinearGradient(
                 begin: Alignment.topCenter,

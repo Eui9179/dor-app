@@ -6,14 +6,12 @@ import 'package:dor_app/ui/dynamic_widget/input/outline_input_readonly.dart';
 import 'package:dor_app/ui/layout/app_bar/text_app_bar.dart';
 import 'package:dor_app/ui/screens/authentication/signup/step2_tos.dart';
 import 'package:dor_app/utils/color_palette.dart';
-import 'package:dor_app/utils/page_route_animation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 class Step1Profile extends StatefulWidget {
-  final String phoneNumber;
-
-  const Step1Profile({Key? key, required this.phoneNumber}) : super(key: key);
+  const Step1Profile({Key? key}) : super(key: key);
 
   @override
   State<Step1Profile> createState() => _Step1ProfileState();
@@ -21,7 +19,7 @@ class Step1Profile extends StatefulWidget {
 
 class _Step1ProfileState extends State<Step1Profile> {
   final _formKey = GlobalKey<FormState>();
-
+  final String _phoneNumber = Get.arguments;
   XFile? _image;
   String? _name;
   String? _group;
@@ -136,29 +134,22 @@ class _Step1ProfileState extends State<Step1Profile> {
     );
   }
 
+  _onPressed() {
+    _formKey.currentState!.save();
+    Get.toNamed('/auth/signup/step2', arguments: {
+      "file": _image,
+      "name": _name,
+      "group": _group,
+      "phoneNumber": _phoneNumber,
+      "fcmToken": "fcm"
+    });
+  }
+
   Future getImageFromGallery() async {
     await ImagePicker().pickImage(source: ImageSource.gallery).then((image) {
       setState(() {
         _image = image;
       });
     });
-  }
-
-  _onPressed() {
-    _formKey.currentState!.save();
-    Map data = _mappedData(_image, _name!, _group!, widget.phoneNumber);
-    PageRouteWithAnimation pageRouteWithAnimation =
-        PageRouteWithAnimation(Step2TOS(profileData: data));
-    Navigator.push(context, pageRouteWithAnimation.slideRitghtToLeft());
-  }
-
-  Map _mappedData(XFile? image, String name, String group, String phoneNumber) {
-    return {
-      "file": image,
-      "name": name,
-      "group": group,
-      "phoneNumber": phoneNumber,
-      "fcmToken": "fcm"
-    };
   }
 }

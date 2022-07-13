@@ -1,9 +1,10 @@
 import 'package:dor_app/dio/game/get_my_game_list.dart';
 import 'package:dor_app/ui/dynamic_widget/card/game_card.dart';
 import 'package:dor_app/ui/dynamic_widget/font/subject_title.dart';
-import 'package:dor_app/ui/screens/authentication/signup/step3_game.dart';
+import 'package:dor_app/ui/screens/setting/my_games.dart';
 import 'package:dor_app/utils/notification.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../../../main.dart';
 import '../../dynamic_widget/font/font.dart';
 
@@ -29,13 +30,13 @@ class _MyGameListState extends State<MyGameList> {
   @override
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          const SubjectTitle(title: "내 게임 목록"),
-          Padding(
-            padding: const EdgeInsets.only(right: 20.0),
-            child: InkWell(
+      Padding(
+        padding: const EdgeInsets.only(left: 13.0, right: 13.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const SubjectTitle(title: "내 게임 목록"),
+            InkWell(
               onTap: () {},
               child: const SizedBox(
                 height: 20,
@@ -50,12 +51,12 @@ class _MyGameListState extends State<MyGameList> {
                 ),
               ),
             ),
-          )
-        ],
+          ],
+        ),
       ),
       _userGameList.isNotEmpty
           ? Container(
-              margin: const EdgeInsets.symmetric(vertical: 5.0),
+              margin: const EdgeInsets.only(top: 5.0, left: 13),
               height: 230.0,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
@@ -73,11 +74,7 @@ class _MyGameListState extends State<MyGameList> {
                 children: [
                   InkWell(
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Step3Game(),
-                            ));
+                        Get.to(const MyGamesSetting());
                       },
                       child: const Text("게임등록",
                           style: TextStyle(

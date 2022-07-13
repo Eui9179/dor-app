@@ -3,6 +3,7 @@ import 'package:dor_app/ui/static_widget/dor_logo_and_name.dart';
 import 'package:dor_app/utils/color_palette.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -97,10 +98,6 @@ class LoginPage extends StatelessWidget {
   }
 
   _inputPhoneNumber(context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => const InputPhoneNumber()),
-    );
+    Get.toNamed('/auth');
   }
 }

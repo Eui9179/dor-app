@@ -12,9 +12,9 @@ Future<Map<String, dynamic>> dioApiSignup(Map profileData) async {
       "name": profileData["name"],
       "group": profileData["group"],
       "phone_number": profileData["phoneNumber"],
-      "fcm_token": "12345r"
+      "fcm_token": profileData["fcmToken"]
     });
-    Response response = await dio.post('/auth/signup', data: formData);
+    Response response = await dio.post('auth/signup', data: formData);
     return {
       "statusCode": response.statusCode,
       "data": response.data["access_token"]

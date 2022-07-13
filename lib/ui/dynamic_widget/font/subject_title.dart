@@ -7,10 +7,8 @@ class SubjectTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.only(left: 15),
-        child: Text(title,
-            style: const TextStyle(
-                color: Color.fromARGB(255, 172, 172, 172), fontSize: 15)));
+    return Text(title,
+        style: const TextStyle(
+            color: Color.fromARGB(255, 172, 172, 172), fontSize: 15));
   }
 }

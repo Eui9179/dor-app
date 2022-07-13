@@ -1,23 +1,22 @@
-import 'package:dio/dio.dart';
 import 'package:dor_app/dio/game/update_my_game_list.dart';
 import 'package:dor_app/ui/dynamic_widget/font/subject_title.dart';
 import 'package:dor_app/utils/color_palette.dart';
-import 'package:dor_app/utils/notification.dart';
-import 'package:dor_app/utils/page_route_animation.dart';
 import 'package:flutter/material.dart';
-import '../../../../main.dart';
-import '../../../../utils/dor_games.dart';
+import 'package:get/get.dart';
+
+import '../../../main.dart';
+import '../../../utils/dor_games.dart';
 
 List<String> gameList = getDorGameList();
 
-class Step3Game extends StatefulWidget {
-  const Step3Game({Key? key}) : super(key: key);
+class MyGamesSetting extends StatefulWidget {
+  const MyGamesSetting({Key? key}) : super(key: key);
 
   @override
-  State<Step3Game> createState() => _Step3GameState();
+  State<MyGamesSetting> createState() => _MyGamesSettingState();
 }
 
-class _Step3GameState extends State<Step3Game> {
+class _MyGamesSettingState extends State<MyGamesSetting> {
   final List<Map> _gameList = List.generate(gameList.length,
       (index) => {'gameName': gameList[index], 'isSelected': false});
   late final String? _accessToken;
@@ -28,10 +27,6 @@ class _Step3GameState extends State<Step3Game> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _getAccessToken();
     });
-  }
-
-  _getAccessToken() async {
-    _accessToken = await storage.read(key: "accessToken");
   }
 
   @override
@@ -138,10 +133,7 @@ class _Step3GameState extends State<Step3Game> {
     response.then((res) {
       int statusCode = res["statusCode"];
       if (statusCode == 200) {
-        PageRouteWithAnimation pageRouteWithAnimation =
-            PageRouteWithAnimation(const MyApp());
-        Navigator.pushAndRemoveUntil(context,
-            pageRouteWithAnimation.slideLeftToRight(), (route) => false);
+        Get.offAllNamed('/');
       } else {
         print("step3Game _onPressed() error: $statusCode");
       }
@@ -156,5 +148,9 @@ class _Step3GameState extends State<Step3Game> {
       }
     }
     return selectedGameList;
+  }
+
+  _getAccessToken() async {
+    _accessToken = await storage.read(key: "accessToken");
   }
 }

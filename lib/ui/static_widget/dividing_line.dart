@@ -7,7 +7,7 @@ class DividingLine extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Padding(
-      padding: EdgeInsets.only(left: 13, right: 13),
+      padding: EdgeInsets.only(right: 13),
       child: Divider(
         color: ColorPalette.dividingLine ,
         thickness: 1,
