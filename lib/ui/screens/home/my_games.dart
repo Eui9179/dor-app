@@ -1,30 +1,28 @@
-import 'package:dor_app/dio/game/get_my_game_list.dart';
+import 'package:dor_app/controller/access_token_controller.dart';
+import 'package:dor_app/dio/game/get_my_games.dart';
 import 'package:dor_app/ui/dynamic_widget/card/game_card.dart';
 import 'package:dor_app/ui/dynamic_widget/font/subject_title.dart';
-import 'package:dor_app/ui/screens/setting/my_games.dart';
 import 'package:dor_app/utils/notification.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../main.dart';
+
 import '../../dynamic_widget/font/font.dart';
 
-class MyGameList extends StatefulWidget {
-  const MyGameList({Key? key}) : super(key: key);
+class MyGames extends StatefulWidget {
+  const MyGames({Key? key}) : super(key: key);
 
   @override
-  State<MyGameList> createState() => _MyGameListState();
+  State<MyGames> createState() => _MyGamesState();
 }
 
-class _MyGameListState extends State<MyGameList> {
+class _MyGamesState extends State<MyGames> {
   late final String? _accessToken;
   List<dynamic> _userGameList = [];
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _initMyGameList();
-    });
+    _initMyGameList();
   }
 
   @override
@@ -74,7 +72,7 @@ class _MyGameListState extends State<MyGameList> {
                 children: [
                   InkWell(
                       onTap: () {
-                        Get.to(const MyGamesSetting());
+                        Get.toNamed('/setting/games');
                       },
                       child: const Text("게임등록",
                           style: TextStyle(
@@ -89,13 +87,13 @@ class _MyGameListState extends State<MyGameList> {
     ]);
   }
 
-  _initMyGameList() async {
-    _accessToken = await storage.read(key: "accessToken");
+  _initMyGameList() {
+    _accessToken = Get.find<AccessTokenController>().accessToken;
     _getMyGameList();
   }
 
   _getMyGameList() {
-    Future<dynamic> response = dioApiGetMyGameList(_accessToken);
+    Future<dynamic> response = dioApiGetMyGames(_accessToken);
     response.then((res) {
       int statusCode = res["statusCode"];
       if (statusCode == 200) {

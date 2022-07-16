@@ -1,3 +1,4 @@
+import 'package:dor_app/controller/access_token_controller.dart';
 import 'package:dor_app/dio/auth/login.dart';
 import 'package:dor_app/main.dart';
 import 'package:dor_app/ui/dynamic_widget/button/rounded_button.dart';
@@ -175,7 +176,6 @@ class _VerificationState extends State<Verification> {
   }
 
   _onPressed() async {
-    print("verification");
     if (_formKey.currentState!.validate()) {
       try {
         await _auth
@@ -207,6 +207,7 @@ class _VerificationState extends State<Verification> {
 
   _signin(String accessToken) async {
     storage.write(key: "accessToken", value: accessToken);
+    Get.find<AccessTokenController>().setAccessToken(accessToken);
     Get.offAllNamed('/');
   }
 }

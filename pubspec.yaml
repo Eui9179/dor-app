@@ -44,6 +44,7 @@ dependencies:
   url_launcher: ^6.1.4
   permission_handler: ^10.0.0
   contacts_service: ^0.6.3
+  flutter_typeahead: ^4.0.0
 
 dev_dependencies:
   flutter_test:
@@ -73,6 +74,7 @@ flutter:
     - assets/images/logo/
     - assets/images/game/
     - assets/images/game/logo/
+    - assets/images/group/
     - assets/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see

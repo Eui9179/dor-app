@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dor_app/dio/dio_instance.dart';
 import 'package:dio/dio.dart';
 
@@ -10,7 +12,7 @@ Future<Map<String, dynamic>> dioApiSignup(Map profileData) async {
           ? await MultipartFile.fromFile(profileData["file"].path)
           : null,
       "name": profileData["name"],
-      "group": profileData["group"],
+      "groups": profileData["groups"],
       "phone_number": profileData["phoneNumber"],
       "fcm_token": profileData["fcmToken"]
     });

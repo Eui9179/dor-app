@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:dor_app/dio/dio_instance.dart';
 
-Future<Map<String, dynamic>> dioApiUpdateMyFriendList(
+Future<Map<String, dynamic>> dioApiUpdateMyFriends(
     String? accessToken, List<String?> contacts) async {
   Dio dio = DioInstance(accessToken).dio;
 
   try {
-    Response response = await dio.post('user/friend/sync', data: jsonEncode(contacts));
+    Response response = await dio.post('user/friends/sync', data: jsonEncode(contacts));
     return {"statusCode": response.statusCode};
   } on DioError catch (error) {
     print(error);

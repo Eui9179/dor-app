@@ -35,12 +35,6 @@ class MainPageBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       actions: [
         IconButton(
-          icon: const Icon(Icons.person_add),
-          splashRadius: 25,
-          tooltip: '내 주변',
-          onPressed: () => {},
-        ),
-        IconButton(
           icon: const Icon(
             Icons.settings,
           ),

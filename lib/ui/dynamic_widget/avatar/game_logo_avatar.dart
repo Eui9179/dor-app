@@ -11,11 +11,11 @@ class GameLogoAvatar extends StatelessWidget {
     return  Container(
       child: CircleAvatar(
             backgroundColor: ColorPalette.mainBackgroundColor,
-            radius: 15,
+            radius: 14,
             child: CircleAvatar(
               backgroundColor: Colors.black87,
               backgroundImage: AssetImage("assets/images/game/logo/${gameName}_logo.png"),
-              radius: 12.0,
+              radius: 11.0,
             ),
           ),
     );

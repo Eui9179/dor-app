@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+
 import '../../../utils/color_palette.dart';
 import 'main_page_bar.dart';
-import 'my_friend_list.dart';
-import 'my_game_list.dart';
+import 'my_friends.dart';
+import 'my_games.dart';
+import 'my_groups.dart';
 import 'my_profile.dart';
 
 class MainPage extends StatelessWidget {
@@ -17,8 +19,9 @@ class MainPage extends StatelessWidget {
           child: Column(
             children: const [
               MyProfile(),
-              MyGameList(),
-              MyFriendList(),
+              MyGroups(),
+              MyGames(),
+              MyFriends(),
             ],
           ),
         ));

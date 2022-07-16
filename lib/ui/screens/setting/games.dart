@@ -1,4 +1,5 @@
-import 'package:dor_app/dio/game/update_my_game_list.dart';
+import 'package:dor_app/controller/access_token_controller.dart';
+import 'package:dor_app/dio/game/update_my_games.dart';
 import 'package:dor_app/ui/dynamic_widget/font/subject_title.dart';
 import 'package:dor_app/utils/color_palette.dart';
 import 'package:flutter/material.dart';
@@ -9,14 +10,14 @@ import '../../../utils/dor_games.dart';
 
 List<String> gameList = getDorGameList();
 
-class MyGamesSetting extends StatefulWidget {
-  const MyGamesSetting({Key? key}) : super(key: key);
+class GamesSetting extends StatefulWidget {
+  const GamesSetting({Key? key}) : super(key: key);
 
   @override
-  State<MyGamesSetting> createState() => _MyGamesSettingState();
+  State<GamesSetting> createState() => _GamesSettingState();
 }
 
-class _MyGamesSettingState extends State<MyGamesSetting> {
+class _GamesSettingState extends State<GamesSetting> {
   final List<Map> _gameList = List.generate(gameList.length,
       (index) => {'gameName': gameList[index], 'isSelected': false});
   late final String? _accessToken;
@@ -129,7 +130,7 @@ class _MyGamesSettingState extends State<MyGamesSetting> {
 
   _onPressed() {
     Future<Map<String, dynamic>> response =
-        dioApiUpdateMyGameList(_accessToken, filterSelectedGameList());
+        dioApiUpdateMyGames(_accessToken, filterSelectedGameList());
     response.then((res) {
       int statusCode = res["statusCode"];
       if (statusCode == 200) {
@@ -150,7 +151,7 @@ class _MyGamesSettingState extends State<MyGamesSetting> {
     return selectedGameList;
   }
 
-  _getAccessToken() async {
-    _accessToken = await storage.read(key: "accessToken");
+  _getAccessToken() {
+    _accessToken = Get.find<AccessTokenController>().accessToken;
   }
 }

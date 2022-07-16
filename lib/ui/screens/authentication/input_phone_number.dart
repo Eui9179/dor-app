@@ -105,6 +105,6 @@ class _InputPhoneNumberState extends State<InputPhoneNumber> {
 
   _onPressed() {
     _formKey.currentState!.save();
-    Get.toNamed('auth/verification', arguments: _phoneNumber);
+    Get.toNamed('/auth/verification', arguments: _phoneNumber);
   }
 }

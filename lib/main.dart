@@ -1,17 +1,14 @@
+import 'package:dor_app/controller/access_token_controller.dart';
 import 'package:dor_app/pages.dart';
-import 'package:dor_app/ui/screens/authentication/input_phone_number.dart';
 import 'package:dor_app/ui/screens/authentication/login_screen.dart';
-import 'package:dor_app/ui/screens/authentication/signup/step1_profile.dart';
-import 'package:dor_app/ui/screens/authentication/signup/step2_tos.dart';
-import 'package:dor_app/ui/screens/setting/my_games.dart';
-import 'package:dor_app/ui/screens/authentication/verification.dart';
 import 'package:dor_app/ui/screens/home/main_page.dart';
 import 'package:dor_app/utils/color_palette.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
+
 import 'firebase_options.dart';
 
 const storage = FlutterSecureStorage();
@@ -29,6 +26,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(AccessTokenController());
     return GetMaterialApp(
       title: '',
       theme: ThemeData(
@@ -86,6 +84,9 @@ class _HomeState extends State<Home> {
 
   _getAccessToken() async {
     accessToken = await storage.read(key: "accessToken");
+    if(accessToken != null){
+      Get.find<AccessTokenController>().setAccessToken(accessToken!);
+    }
     setState(() {
       isLoading = false;
     });

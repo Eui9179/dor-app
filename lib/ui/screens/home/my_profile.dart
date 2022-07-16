@@ -1,10 +1,10 @@
+import 'package:dor_app/controller/access_token_controller.dart';
 import 'package:dor_app/dio/profile/get_my_profile.dart';
 import 'package:dor_app/ui/dynamic_widget/avatar/profile_avatar.dart';
 import 'package:dor_app/utils/color_palette.dart';
 import 'package:dor_app/utils/notification.dart';
 import 'package:flutter/material.dart';
-
-import '../../../main.dart';
+import 'package:get/get.dart';
 
 class MyProfile extends StatefulWidget {
   const MyProfile({Key? key}) : super(key: key);
@@ -14,9 +14,9 @@ class MyProfile extends StatefulWidget {
 }
 
 class _MyProfileState extends State<MyProfile> {
-  late final String? _accessToken;
   String? name = "";
   String? profileImageName = "";
+  String? phoneNumber = "";
   bool isLoading = true;
 
   @override
@@ -37,7 +37,7 @@ class _MyProfileState extends State<MyProfile> {
       return Container(
         width: double.infinity,
         padding:
-            const EdgeInsets.only(top: 15, bottom: 25, right: 13, left: 13),
+            const EdgeInsets.only(top: 15, bottom: 20, right: 13, left: 13),
         decoration: const BoxDecoration(
             gradient: LinearGradient(
                 begin: Alignment.topCenter,
@@ -67,13 +67,9 @@ class _MyProfileState extends State<MyProfile> {
     }
   }
 
-  _initMyProfile() async {
-    _accessToken = await storage.read(key: "accessToken");
-    _getMyProfile();
-  }
-
-  _getMyProfile() {
-    Future<Map<String, dynamic>> response = dioApiGetMyProfile(_accessToken);
+  _initMyProfile() {
+    final String accessToken = Get.find<AccessTokenController>().accessToken;
+    Future<Map<String, dynamic>> response = dioApiGetMyProfile(accessToken);
     response.then((res) {
       int statusCode = res["statusCode"];
       if (statusCode == 200) {
@@ -81,14 +77,15 @@ class _MyProfileState extends State<MyProfile> {
         setState(() {
           name = profileData["name"];
           profileImageName = profileData["profile_image_name"];
+          phoneNumber = profileData["phone_number"];
           isLoading = false;
         });
-        print(profileData);
       } else if (statusCode == 401) {
         notification(context, "다시 로그인 해주세요");
       } else {
         print("_getMyProfile() error: $statusCode");
       }
     });
+
   }
 }
