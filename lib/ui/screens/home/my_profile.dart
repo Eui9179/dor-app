@@ -22,6 +22,7 @@ class _MyProfileState extends State<MyProfile> {
   @override
   void initState() {
     super.initState();
+    print('_initMyProfile');
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _initMyProfile();
     });

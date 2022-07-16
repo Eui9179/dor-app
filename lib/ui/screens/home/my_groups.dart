@@ -19,6 +19,7 @@ class _MyGroupsState extends State<MyGroups> {
 
   @override
   void initState() {
+    print('_initMyGroups');
     super.initState();
     _initMyGroups();
   }

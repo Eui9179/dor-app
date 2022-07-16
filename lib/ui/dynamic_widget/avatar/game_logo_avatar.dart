@@ -8,16 +8,15 @@ class GameLogoAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Container(
+    return CircleAvatar(
+      backgroundColor: ColorPalette.mainBackgroundColor,
+      radius: 14,
       child: CircleAvatar(
-            backgroundColor: ColorPalette.mainBackgroundColor,
-            radius: 14,
-            child: CircleAvatar(
-              backgroundColor: Colors.black87,
-              backgroundImage: AssetImage("assets/images/game/logo/${gameName}_logo.png"),
-              radius: 11.0,
-            ),
-          ),
+        backgroundColor: ColorPalette.headerBackgroundColor,
+        backgroundImage:
+            AssetImage("assets/images/game/logo/${gameName}_logo.png"),
+        radius: 11.0,
+      ),
     );
   }
 }

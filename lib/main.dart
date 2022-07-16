@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 
+import 'controller/my_friends_controller.dart';
 import 'firebase_options.dart';
 
 const storage = FlutterSecureStorage();
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Get.put(AccessTokenController());
+    Get.put(MyFriendsController());
     return GetMaterialApp(
       title: '',
       theme: ThemeData(

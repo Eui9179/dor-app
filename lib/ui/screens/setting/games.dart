@@ -5,7 +5,6 @@ import 'package:dor_app/utils/color_palette.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../main.dart';
 import '../../../utils/dor_games.dart';
 
 List<String> gameList = getDorGameList();

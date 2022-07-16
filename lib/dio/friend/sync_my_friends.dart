@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:dor_app/dio/dio_instance.dart';
 
-Future<Map<String, dynamic>> dioApiUpdateMyFriends(
+Future<Map<String, dynamic>>dioApiSyncMyFriendsiends(
     String? accessToken, List<String?> contacts) async {
   Dio dio = DioInstance(accessToken).dio;
 

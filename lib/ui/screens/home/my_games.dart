@@ -88,6 +88,7 @@ class _MyGamesState extends State<MyGames> {
   }
 
   _initMyGameList() {
+    print('_initMyGameList');
     _accessToken = Get.find<AccessTokenController>().accessToken;
     _getMyGameList();
   }
