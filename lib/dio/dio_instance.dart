@@ -1,7 +1,7 @@
 
 import 'package:dio/dio.dart';
 
-String baseUri = "http://192.168.0.13:8000/api/";
+String baseUri = "http://172.30.1.4:8000/api/";
 
 class DioInstance{
   final _dio = Dio();

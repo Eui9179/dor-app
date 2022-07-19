@@ -25,7 +25,7 @@ class _Step1ProfileState extends State<Step1Profile> {
   final _formKey = GlobalKey<FormState>();
   final String _phoneNumber = Get.arguments;
   final TextEditingController _typeAheadController = TextEditingController();
-  List<String> _groups = [];
+  final List<String> _groups = [];
   XFile? _image;
   String? _name;
   bool isName = false;
@@ -105,7 +105,6 @@ class _Step1ProfileState extends State<Step1Profile> {
                 ),
                 TypeAheadField(
                     textFieldConfiguration: TextFieldConfiguration(
-
                       textInputAction: TextInputAction.next,
                       style: const TextStyle(
                           fontSize: 20.0, color: ColorPalette.font),

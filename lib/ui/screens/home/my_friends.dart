@@ -98,7 +98,9 @@ class _MyFriendsState extends State<MyFriends> {
                 itemCount: _myFriends.length,
                 itemBuilder: (BuildContext context, int index) {
                   return InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Get.toNamed('/users/${_myFriends[index]['id']}');
+                    },
                     child: Padding(
                       padding: const EdgeInsets.only(right: 13.0, left: 13.0),
                       child: Row(

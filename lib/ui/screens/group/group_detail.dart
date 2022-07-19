@@ -47,7 +47,7 @@ class _GroupDetailState extends State<GroupDetail> {
         backgroundColor: ColorPalette.mainBackgroundColor,
         appBar: AppBar(
           elevation: 0.0,
-          backgroundColor: ColorPalette.mainBackgroundColor,
+          backgroundColor: ColorPalette.headerBackgroundColor,
           title: const Text(
             "학교 게임 친구",
             style: TextStyle(
@@ -97,9 +97,9 @@ class _GroupDetailState extends State<GroupDetail> {
                           const DividingLine(),
                           GestureDetector(
                             onTap: () {
-                              Get.toNamed('/group/myfriends', arguments: {
+                              Get.toNamed('/acquaintance', arguments: {
                                 'friends': _friends,
-                                'groupName': groupName
+                                'kinds': groupName
                               });
                             },
                             child: Container(
@@ -151,7 +151,9 @@ class _GroupDetailState extends State<GroupDetail> {
                   itemCount: _people.length,
                   itemBuilder: (BuildContext context, int index) {
                     return InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Get.toNamed('/users/${_people[index]['id']}');
+                      },
                       child: Padding(
                         padding: const EdgeInsets.only(right: 13.0, left: 13.0),
                         child: Row(

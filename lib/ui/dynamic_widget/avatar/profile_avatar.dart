@@ -13,7 +13,7 @@ class ProfileAvatar extends StatelessWidget {
       radius: 45.0,
       child: CircleAvatar(
         backgroundImage: image != "default"
-            ? NetworkImage('$baseUri/user/profile/image/$image')
+            ? NetworkImage('${baseUri}user/profile/image/$image')
             : const AssetImage("assets/images/logo/dor.jpg")
                 as ImageProvider,
         radius: 45.0,

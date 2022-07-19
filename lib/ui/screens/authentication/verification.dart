@@ -21,7 +21,7 @@ class Verification extends StatefulWidget {
 }
 
 class _VerificationState extends State<Verification> {
-  String _phoneNumber = Get.arguments;
+  final String _phoneNumber = Get.arguments;
   _VerificationState({Key? key});
 
   final FirebaseAuth _auth = FirebaseAuth.instance;

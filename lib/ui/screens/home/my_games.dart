@@ -35,10 +35,12 @@ class _MyGamesState extends State<MyGames> {
           children: [
             const SubjectTitle(title: "내 게임 목록"),
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Get.toNamed('/setting/games');
+              },
               child: const SizedBox(
                 height: 20,
-                width: 30,
+                width: 40,
                 child: Text(
                   "편집",
                   textAlign: TextAlign.center,
@@ -60,7 +62,7 @@ class _MyGamesState extends State<MyGames> {
                 scrollDirection: Axis.horizontal,
                 itemCount: _userGameList.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return GameCard(gameName: _userGameList[index]);
+                  return GameCard(gameName: _userGameList[index]['game'], isMe: true, nickname:  _userGameList[index]['nickname'] ?? null,);
                 },
               ),
             )

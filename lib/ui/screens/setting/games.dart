@@ -1,4 +1,5 @@
 import 'package:dor_app/controller/access_token_controller.dart';
+import 'package:dor_app/dio/game/get_my_games.dart';
 import 'package:dor_app/dio/game/update_my_games.dart';
 import 'package:dor_app/ui/dynamic_widget/font/subject_title.dart';
 import 'package:dor_app/utils/color_palette.dart';
@@ -17,16 +18,13 @@ class GamesSetting extends StatefulWidget {
 }
 
 class _GamesSettingState extends State<GamesSetting> {
-  final List<Map> _gameList = List.generate(gameList.length,
-      (index) => {'gameName': gameList[index], 'isSelected': false});
-  late final String? _accessToken;
+  List<Map> _gameList = [];
+  List<dynamic> _myGames = [];
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _getAccessToken();
-    });
+    _initMyGames();
   }
 
   @override
@@ -54,16 +52,16 @@ class _GamesSettingState extends State<GamesSetting> {
           centerTitle: true,
         ),
         body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SubjectTitle(title: "프로필에 보여질 게임을 선택해 주세요!"),
-              const SizedBox(
-                height: 15,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: GridView.count(
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SubjectTitle(title: "프로필에 보여질 게임을 선택해 주세요!"),
+                const SizedBox(
+                  height: 15,
+                ),
+                GridView.count(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     crossAxisCount: 2,
@@ -121,15 +119,16 @@ class _GamesSettingState extends State<GamesSetting> {
                         ),
                       );
                     })),
-              ),
-            ],
+              ],
+            ),
           ),
         ));
   }
 
   _onPressed() {
+    String accessToken = Get.find<AccessTokenController>().accessToken;
     Future<Map<String, dynamic>> response =
-        dioApiUpdateMyGames(_accessToken, filterSelectedGameList());
+        dioApiUpdateMyGames(accessToken, filterSelectedGameList());
     response.then((res) {
       int statusCode = res["statusCode"];
       if (statusCode == 200) {
@@ -150,7 +149,25 @@ class _GamesSettingState extends State<GamesSetting> {
     return selectedGameList;
   }
 
-  _getAccessToken() {
-    _accessToken = Get.find<AccessTokenController>().accessToken;
+  _initMyGames() {
+    String accessToken = Get.find<AccessTokenController>().accessToken;
+    Future<Map<String, dynamic>> response = dioApiGetMyGames(accessToken);
+    response.then((res) {
+      int statusCode = res['statusCode'];
+      if (statusCode == 200) {
+        setState(() {
+          _myGames = res['data'];
+          List<String> myGames = List.generate(_myGames.length, (index) => _myGames[index]['game']);
+          _gameList = List.generate(gameList.length, (index) {
+            if (myGames.contains(gameList[index])){
+              return {'gameName': gameList[index], 'isSelected': true};
+            }
+            return {'gameName': gameList[index], 'isSelected': false};
+          });
+        });
+      } else {
+        print('_initMyGames(): $statusCode');
+      }
+    });
   }
 }

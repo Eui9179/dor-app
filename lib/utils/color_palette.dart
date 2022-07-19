@@ -8,6 +8,7 @@ class ColorPalette {
   static const grey = Color.fromARGB(255, 37, 37, 37);
   static const font = Colors.white;
   static const dividingLine = Color.fromARGB(255, 78, 78, 78);
+  static const subFont = Color.fromARGB(255, 172, 172, 172);
   // static const sendButton = Color.fromARGB(255, 129, 232, 210);
 
 // static const mainBackgroundColor = Colors.white;
