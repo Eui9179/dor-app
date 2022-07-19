@@ -183,7 +183,6 @@ class _Step1ProfileState extends State<Step1Profile> {
 
   _onPressed() {
     _formKey.currentState!.save();
-    print(_groups);
     if (!DorGroups.states.contains(_groups[0])){
       notification(context, "학교 이름을 확인해주세요!");
     } else {

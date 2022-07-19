@@ -264,7 +264,6 @@ class _GroupDetailState extends State<GroupDetail> {
         List<dynamic> resPeople = res['people'];
         final List<Map> newResPeople = List.generate(resPeople.length,
             (index) => {...resPeople[index], 'isFollow': false});
-        print(newResPeople);
         List<dynamic> resFriends = res['friends'];
         setState(() {
           _people = newResPeople;

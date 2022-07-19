@@ -10,6 +10,5 @@ List<String?> formattedContacts(List<String?> contacts) {
       }
     }
   }
-  print(result);
   return result;
 }
