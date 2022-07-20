@@ -46,6 +46,7 @@ class _GroupDetailState extends State<GroupDetail> {
       child: Scaffold(
         backgroundColor: ColorPalette.mainBackgroundColor,
         appBar: AppBar(
+          titleSpacing: 0,
           elevation: 0.0,
           backgroundColor: ColorPalette.headerBackgroundColor,
           title: const Text(
@@ -55,7 +56,6 @@ class _GroupDetailState extends State<GroupDetail> {
                 fontWeight: FontWeight.w400,
                 color: ColorPalette.font),
           ),
-          centerTitle: true,
         ),
         body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -128,8 +128,8 @@ class _GroupDetailState extends State<GroupDetail> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('알 수도 있는 사람',
-                        style: TextStyle(
+                    Text('$groupName 친구들',
+                        style: const TextStyle(
                             color: Color.fromARGB(255, 172, 172, 172),
                             fontSize: 18)),
                     Row(

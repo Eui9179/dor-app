@@ -3,9 +3,11 @@ import 'package:dor_app/ui/screens/authentication/login_screen.dart';
 import 'package:dor_app/ui/screens/authentication/signup/step1_profile.dart';
 import 'package:dor_app/ui/screens/authentication/signup/step2_tos.dart';
 import 'package:dor_app/ui/screens/authentication/verification.dart';
+import 'package:dor_app/ui/screens/friends/friends_in_game.dart';
 import 'package:dor_app/ui/screens/group/group_detail.dart';
 import 'package:dor_app/ui/screens/friends/acquaintance.dart';
 import 'package:dor_app/ui/screens/setting/games.dart';
+import 'package:dor_app/ui/screens/setting/settting.dart';
 import 'package:dor_app/ui/screens/users/users.dart';
 import 'package:get/get.dart';
 
@@ -49,5 +51,13 @@ List<GetPage> pages = [
   GetPage(
       name: '/users/:userId',
       page: () => const Users(),
+      transition: Transition.rightToLeft),
+  GetPage(
+      name: '/friends/:gameName',
+      page: () => const FriendsInGame(),
+      transition: Transition.rightToLeft),
+  GetPage(
+      name: '/setting',
+      page: () => const Setting(),
       transition: Transition.rightToLeft),
 ];

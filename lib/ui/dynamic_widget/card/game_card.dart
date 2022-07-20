@@ -38,7 +38,7 @@ class _GameCardState extends State<GameCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        _showTextInputDialog(context);
+        if (widget.isMe) Get.toNamed('/friends/${widget.gameName}');
       },
       child: Padding(
         padding: const EdgeInsets.only(right: 10.0, bottom: 8.0, top: 8.0),
@@ -55,32 +55,92 @@ class _GameCardState extends State<GameCard> {
                 fit: BoxFit.cover,
               ),
             ),
-            nickname != null
-                ? Positioned(
-                    bottom: 30,
-                    left: 12,
-                    child: Text(
-                      nickname!,
-                      style: const TextStyle(
+            if (nickname != null) ...[
+              Positioned(
+                bottom: 20,
+                left: 2,
+                child: InkWell(
+                  onTap: () {
+                    _showTextInputDialog(context);
+                  },
+                  child: SizedBox(
+                    height: 30,
+                    width: 100,
+                    child: Container(
+                      padding: const EdgeInsets.only(left: 8, top: 5),
+                      child: Text(
+                        nickname!,
+                        style: const TextStyle(
                           color: Colors.white,
-                          fontSize: 17,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  )
-                : const Positioned(
-                    bottom: 30,
-                    left: 12,
-                    child: Text(
-                      "터치해서 닉네임 등록",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 17,
-                          fontWeight: FontWeight.w400),
+                          fontSize: 18,
+                          fontWeight: FontWeight.w400,
+                          shadows: <Shadow>[
+                            Shadow(
+                              offset: Offset(1, 0),
+                              blurRadius: 5.0,
+                              color: Color.fromARGB(255, 0, 0, 0),
+                            ),
+
+                          ],
+                        ),
+                        textAlign: TextAlign.left,
+
+                      ),
                     ),
                   ),
+                ),
+              )
+            ],
+            if (widget.isMe)...[
+              Positioned(
+                top: 7,
+                right: 5,
+                child: Material(
+                  color: const Color.fromARGB(0, 255, 255, 255),
+                  child: IconButton(
+                      onPressed: () {
+                        _showTextInputDialog(context);
+                      },
+                      tooltip: "닉네임 설정",
+                      splashRadius: 14,
+                      padding: const EdgeInsets.all(3.0),
+                      constraints: const BoxConstraints(),
+                      splashColor: const Color.fromARGB(169, 255, 255, 255),
+                      icon: const Icon(Icons.settings,
+                          color: Color.fromARGB(191, 255, 255, 255), size: 20)),
+                ),
+              ),
+              if (nickname == null)...[
+                Positioned(
+                  bottom: 20,
+                  left: 2,
+                  child: InkWell(
+                    onTap: () {
+                      _showTextInputDialog(context);
+                    },
+                    child: SizedBox(
+                      height: 30,
+                      width: 150,
+                      child: Container(
+                        padding: const EdgeInsets.only(left: 8, top: 5),
+                        child: const Text(
+                          '닉네임 등록하기',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          textAlign: TextAlign.left,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ]
+            ],
             Positioned(
               bottom: 10,
-              left: 12,
+              left: 10,
               child: Text(
                 changeKorGameName(widget.gameName), // .jpg, .png 없애는 함수
                 style: const TextStyle(
@@ -140,13 +200,14 @@ class _GameCardState extends State<GameCard> {
                 cursorColor: ColorPalette.font,
                 autofocus: true,
                 controller: _textFieldController,
-                style: const TextStyle(fontSize: 19.0, color: ColorPalette.font),
+                style:
+                    const TextStyle(fontSize: 19.0, color: ColorPalette.font),
                 decoration: InputDecoration(
-                    filled: true,
-                    fillColor: const Color.fromARGB(255, 66, 73, 92),
-                    enabledBorder: enabledBorder,
-                    focusedBorder: focusedBorder,
-                    counterStyle: const TextStyle(color: ColorPalette.subFont),
+                  filled: true,
+                  fillColor: const Color.fromARGB(255, 66, 73, 92),
+                  enabledBorder: enabledBorder,
+                  focusedBorder: focusedBorder,
+                  counterStyle: const TextStyle(color: ColorPalette.subFont),
                 ),
               ),
             ),
@@ -177,11 +238,11 @@ class _GameCardState extends State<GameCard> {
 
   _updateGameNickname() {
     String accessToken = Get.find<AccessTokenController>().accessToken;
-    Future<Map<String, dynamic>> response =
-        dioApiUpdateMyGamesNickname(accessToken, widget.gameName, _textFieldController.text);
-    response.then((res){
+    Future<Map<String, dynamic>> response = dioApiUpdateMyGamesNickname(
+        accessToken, widget.gameName, _textFieldController.text);
+    response.then((res) {
       int statusCode = res['statusCode'];
-      if(statusCode == 200){
+      if (statusCode == 200) {
         setState(() {
           nickname = _textFieldController.text;
         });

@@ -7,14 +7,16 @@ class OutlineInput extends StatefulWidget {
   final void Function(String?) onChanged;
   final String? Function(String?) validator;
   final String labelText;
+  final bool autoFocus;
 
-  const OutlineInput(
-      {Key? key,
-      required this.onSaved,
-      required this.onChanged,
-      required this.validator,
-      required this.labelText})
-      : super(key: key);
+  const OutlineInput({
+    Key? key,
+    required this.onSaved,
+    required this.onChanged,
+    required this.validator,
+    required this.labelText,
+    required this.autoFocus,
+  }) : super(key: key);
 
   @override
   State<OutlineInput> createState() => _OutlineInputState();
@@ -24,7 +26,7 @@ class _OutlineInputState extends State<OutlineInput> {
   final enabledBorder = OutlineInputBorder(
       borderRadius: BorderRadius.circular(15.0),
       borderSide:
-          const BorderSide(color:Color.fromARGB(255, 52, 52, 71), width: 2));
+          const BorderSide(color: Color.fromARGB(255, 52, 52, 71), width: 2));
   final focusedBorder = OutlineInputBorder(
       borderRadius: BorderRadius.circular(15.0),
       borderSide: const BorderSide(color: Colors.blueAccent, width: 2));
@@ -36,7 +38,7 @@ class _OutlineInputState extends State<OutlineInput> {
       child: Column(
         children: [
           TextFormField(
-            autofocus: true,
+            autofocus: widget.autoFocus,
             textInputAction: TextInputAction.next,
             autovalidateMode: AutovalidateMode.always,
             onSaved: widget.onSaved,
@@ -48,9 +50,7 @@ class _OutlineInputState extends State<OutlineInput> {
               filled: true,
               labelText: widget.labelText,
               labelStyle: const TextStyle(
-                color: Color.fromARGB(255, 206, 206, 215),
-                fontSize: 20
-              ),
+                  color: Color.fromARGB(255, 206, 206, 215), fontSize: 20),
               enabledBorder: enabledBorder,
               focusedBorder: focusedBorder,
             ),

@@ -41,8 +41,7 @@ class MainPageBar extends StatelessWidget implements PreferredSizeWidget {
           splashRadius: 25,
           tooltip: '설정',
           onPressed: () {
-            storage.delete(key: "accessToken");
-            Get.offAllNamed('/login');
+            Get.toNamed('/setting');
           },
         ),
         const SizedBox(

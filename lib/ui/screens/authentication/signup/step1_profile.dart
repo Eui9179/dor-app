@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:dor_app/ui/dynamic_widget/button/rounded_button.dart';
-import 'package:dor_app/ui/dynamic_widget/font/font.dart';
 import 'package:dor_app/ui/dynamic_widget/input/outline_input.dart';
 import 'package:dor_app/ui/dynamic_widget/input/outline_input_readonly.dart';
 import 'package:dor_app/ui/layout/app_bar/text_app_bar.dart';
@@ -102,6 +101,7 @@ class _Step1ProfileState extends State<Step1Profile> {
                     return null;
                   },
                   labelText: "이름을 입력해주세요",
+                  autoFocus: true,
                 ),
                 TypeAheadField(
                     textFieldConfiguration: TextFieldConfiguration(

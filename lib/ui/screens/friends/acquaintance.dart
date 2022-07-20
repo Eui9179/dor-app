@@ -17,7 +17,8 @@ class Acquaintance extends StatelessWidget {
       backgroundColor: ColorPalette.mainBackgroundColor,
       appBar: AppBar(
         elevation: 0.0,
-        backgroundColor: ColorPalette.mainBackgroundColor,
+        titleSpacing: 0,
+        backgroundColor: ColorPalette.headerBackgroundColor,
         title: Text(
           kinds,
           style: const TextStyle(
@@ -25,7 +26,6 @@ class Acquaintance extends StatelessWidget {
               fontWeight: FontWeight.w400,
               color: ColorPalette.font),
         ),
-        centerTitle: true,
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

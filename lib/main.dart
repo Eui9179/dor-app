@@ -1,4 +1,6 @@
 import 'package:dor_app/controller/access_token_controller.dart';
+import 'package:dor_app/controller/my_groups_controller.dart';
+import 'package:dor_app/controller/my_profile_controller.dart';
 import 'package:dor_app/pages.dart';
 import 'package:dor_app/ui/screens/authentication/login_screen.dart';
 import 'package:dor_app/ui/screens/home/main_page.dart';
@@ -29,6 +31,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     Get.put(AccessTokenController());
     Get.put(MyFriendsController());
+    Get.put(MyProfileController());
+    Get.put(MyGroupsController());
+
     return GetMaterialApp(
       title: '',
       theme: ThemeData(

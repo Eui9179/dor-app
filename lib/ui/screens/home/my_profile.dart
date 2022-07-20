@@ -1,4 +1,5 @@
 import 'package:dor_app/controller/access_token_controller.dart';
+import 'package:dor_app/controller/my_profile_controller.dart';
 import 'package:dor_app/dio/profile/get_my_profile.dart';
 import 'package:dor_app/ui/dynamic_widget/avatar/profile_avatar.dart';
 import 'package:dor_app/utils/color_palette.dart';
@@ -23,9 +24,7 @@ class _MyProfileState extends State<MyProfile> {
   void initState() {
     super.initState();
     print('_initMyProfile');
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _initMyProfile();
-    });
+    _initMyProfile();
   }
 
   @override
@@ -35,35 +34,42 @@ class _MyProfileState extends State<MyProfile> {
         child: Text("loading..."),
       );
     } else {
-      return Container(
-        width: double.infinity,
-        padding:
+      return GetBuilder<MyProfileController>(
+        builder: (controller) {
+          name = controller.name;
+          profileImageName = controller.profileImage;
+
+          return Container(
+            width: double.infinity,
+            padding:
             const EdgeInsets.only(top: 15, bottom: 20, right: 13, left: 13),
-        decoration: const BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-              ColorPalette.headerBackgroundColor,
-              ColorPalette.mainBackgroundColor
-            ],
-                stops: [
-              0.4,
-              0.4
-            ])),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          ProfileAvatar(
-            image: profileImageName,
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-          Text(name!,
-              style: const TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                  color: ColorPalette.font)),
-        ]),
+            decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      ColorPalette.headerBackgroundColor,
+                      ColorPalette.mainBackgroundColor
+                    ],
+                    stops: [
+                      0.4,
+                      0.4
+                    ])),
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              ProfileAvatar(
+                image: profileImageName,
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              Text(name!,
+                  style: const TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: ColorPalette.font)),
+            ]),
+          );
+        },
       );
     }
   }
@@ -75,9 +81,8 @@ class _MyProfileState extends State<MyProfile> {
       int statusCode = res["statusCode"];
       if (statusCode == 200) {
         Map<String, dynamic> profileData = res["data"];
+        Get.find<MyProfileController>().setMyProfile(profileData["name"], profileData["profile_image_name"]);
         setState(() {
-          name = profileData["name"];
-          profileImageName = profileData["profile_image_name"];
           phoneNumber = profileData["phone_number"];
           isLoading = false;
         });

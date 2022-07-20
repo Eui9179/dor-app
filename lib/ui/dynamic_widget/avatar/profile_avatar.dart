@@ -1,5 +1,4 @@
 import 'package:dor_app/dio/dio_instance.dart';
-import 'package:dor_app/utils/color_palette.dart';
 import 'package:flutter/material.dart';
 
 class ProfileAvatar extends StatelessWidget {
