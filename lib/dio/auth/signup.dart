@@ -16,7 +16,7 @@ Future<Map<String, dynamic>> dioApiSignup(Map profileData) async {
       "phone_number": profileData["phoneNumber"],
       "fcm_token": profileData["fcmToken"]
     });
-    Response response = await dio.post('auth/signup', data: formData);
+    Response response = await dio.post('/auth/signup', data: formData);
     return {
       "statusCode": response.statusCode,
       "data": response.data["access_token"]

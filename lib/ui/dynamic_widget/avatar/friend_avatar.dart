@@ -10,13 +10,13 @@ class FriendAvatar extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(30.0),
       child: Container(
-          width: 60,
-          height: 60,
+          width: 55,
+          height: 55,
           color: Colors.black54,
           child: image == "default"
-              ? Image.asset('assets/images/logo/dor_default.png',
+              ? Image.asset('assets/images/logo/default.png',
                   fit: BoxFit.cover)
-              : Image.network('$baseUri/user/profile/image/$image',
+              : Image.network('$cdnProfileImageBaseUri$image',
                   fit: BoxFit.cover)),
     );
   }

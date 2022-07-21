@@ -8,7 +8,7 @@ Future<Map<String, dynamic>> dioApiUpdateMyGamesNickname(
 
   try {
     Response response = await dio
-        .post("games/nickname", data: {'game': game, 'nickname': nickname});
+        .post("/games/nickname", data: {'game': game, 'nickname': nickname});
     return {"statusCode": response.statusCode};
   } on DioError catch (error) {
     return {"statusCode": error.response!.statusCode};

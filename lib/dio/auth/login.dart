@@ -5,7 +5,7 @@ Future<Map<String, dynamic>> dioApiLogin(String phoneNumber) async {
   Dio dio = DioInstance(null).dio;
 
   try {
-    Response response = await dio.post('auth/login',
+    Response response = await dio.post('/auth/login',
         data: {"phone_number": phoneNumber, "fcm_token": "12345r"});
     return {"statusCode": 200, "data": response.data["access_token"]};
   } on DioError catch (error) {

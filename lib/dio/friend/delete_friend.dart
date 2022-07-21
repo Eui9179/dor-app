@@ -6,7 +6,7 @@ Future<Map<String, dynamic>> dioApiDeleteFriendOne(
   Dio dio = DioInstance(accessToken).dio;
 
   try {
-    Response response = await dio.delete('user/friend/$friendId');
+    Response response = await dio.delete('/user/friend/$friendId');
     return {
       'statusCode': response.statusCode,
     };

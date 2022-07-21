@@ -96,13 +96,15 @@ class _SettingState extends State<Setting> {
                           backgroundColor: Colors.black54,
                           child: _image == null
                               ? _originImage == 'default'
-                                  ? Image.asset(
-                                      "assets/images/logo/dor_default.png",
-                                      fit: BoxFit.cover,
+                                  ? const CircleAvatar(
+                                      backgroundImage: AssetImage(
+                                        "assets/images/logo/default.png",
+                                      ),
+                                      radius: 55,
                                     )
                                   : CircleAvatar(
                                       backgroundImage: NetworkImage(
-                                          '${baseUri}user/profile/image/$_originImage'),
+                                          '$cdnProfileImageBaseUri$_originImage'),
                                       radius: 55.0,
                                     )
                               : CircleAvatar(
@@ -255,13 +257,15 @@ class _SettingState extends State<Setting> {
                   height: 10,
                 ),
                 TextButton(
-                    onPressed: (){
+                    onPressed: () {
                       _showTextInputDialog(context);
                     },
                     child: const Text(
                       '회원탈퇴',
-                      style:
-                          TextStyle(color: ColorPalette.subFont, fontSize: 20, fontWeight: FontWeight.w300),
+                      style: TextStyle(
+                          color: ColorPalette.subFont,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w300),
                     )),
               ],
             ),
@@ -330,7 +334,7 @@ class _SettingState extends State<Setting> {
   }
 
   Future getImageFromGallery() async {
-    await ImagePicker().pickImage(source: ImageSource.gallery).then((image) {
+    await ImagePicker().pickImage(source: ImageSource.gallery, imageQuality: 30).then((image) {
       setState(() {
         _image = image;
         if (image == null) {
@@ -357,8 +361,7 @@ class _SettingState extends State<Setting> {
                 children: const [
                   Text(
                     '회원 탈퇴',
-                    style:
-                    TextStyle(color: ColorPalette.font, fontSize: 23),
+                    style: TextStyle(color: ColorPalette.font, fontSize: 23),
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(

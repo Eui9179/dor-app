@@ -34,6 +34,32 @@ class _GameCardState extends State<GameCard> {
     });
   }
 
+/*
+* Container(
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                      image:
+                          AssetImage("assets/images/login/leagueoflegends.jpg"),
+                      fit: BoxFit.cover),
+                ),
+                child: Container(
+                  constraints: const BoxConstraints.expand(),
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Color.fromARGB(255, 0, 0, 0),
+                        Colors.transparent,
+                        Colors.transparent,
+                        Color.fromARGB(255, 0, 0, 0),
+                      ],
+                      stops: [0.0, 0.5, 0.5, 1.0],
+                    ),
+                  ),
+                ),
+              )
+* */
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -47,12 +73,32 @@ class _GameCardState extends State<GameCard> {
           child: Stack(children: [
             ColorFiltered(
               colorFilter: ColorFilter.mode(
-                  Colors.black87.withOpacity(0.5), BlendMode.srcOver),
-              child: Image.asset(
-                "assets/images/game/${widget.gameName}.jpg",
+                  Colors.black87.withOpacity(0.2), BlendMode.srcOver),
+              child: Container(
                 width: 150,
                 height: 230,
-                fit: BoxFit.cover,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage(
+                          "assets/images/game/${widget.gameName}.jpg"),
+                      fit: BoxFit.cover),
+                ),
+                child: Container(
+                  constraints: const BoxConstraints.expand(),
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.transparent,
+                        Colors.transparent,
+                        Colors.transparent,
+                        Color.fromARGB(255, 0, 0, 0),
+                      ],
+                      stops: [0.0, 0.5, 0.5, 1.0],
+                    ),
+                  ),
+                ),
               ),
             ),
             if (nickname != null) ...[
@@ -61,37 +107,35 @@ class _GameCardState extends State<GameCard> {
                 left: 2,
                 child: InkWell(
                   onTap: () {
-                    _showTextInputDialog(context);
+                    if (widget.isMe) _showTextInputDialog(context);
                   },
                   child: SizedBox(
                     height: 30,
-                    width: 100,
+                    width: 140,
                     child: Container(
                       padding: const EdgeInsets.only(left: 8, top: 5),
                       child: Text(
                         nickname!,
                         style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
-                          shadows: <Shadow>[
-                            Shadow(
-                              offset: Offset(1, 0),
-                              blurRadius: 5.0,
-                              color: Color.fromARGB(255, 0, 0, 0),
-                            ),
-
-                          ],
-                        ),
-                        textAlign: TextAlign.left,
-
+                            color: Colors.white,
+                            fontSize: 19,
+                            fontWeight: FontWeight.w400,
+                            shadows: <Shadow>[
+                              Shadow(
+                                offset: Offset(1, 0),
+                                blurRadius: 5.0,
+                                color: Color.fromARGB(255, 0, 0, 0),
+                              ),
+                            ],
+                            backgroundColor: Color.fromARGB(89, 0, 0, 0)),
+                        textAlign: TextAlign.start,
                       ),
                     ),
                   ),
                 ),
               )
             ],
-            if (widget.isMe)...[
+            if (widget.isMe) ...[
               Positioned(
                 top: 7,
                 right: 5,
@@ -107,10 +151,10 @@ class _GameCardState extends State<GameCard> {
                       constraints: const BoxConstraints(),
                       splashColor: const Color.fromARGB(169, 255, 255, 255),
                       icon: const Icon(Icons.settings,
-                          color: Color.fromARGB(191, 255, 255, 255), size: 20)),
+                          color: Color.fromARGB(178, 255, 255, 254), size: 20)),
                 ),
               ),
-              if (nickname == null)...[
+              if (nickname == null) ...[
                 Positioned(
                   bottom: 20,
                   left: 2,
@@ -126,8 +170,8 @@ class _GameCardState extends State<GameCard> {
                         child: const Text(
                           '닉네임 등록하기',
                           style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
+                            color: Color.fromARGB(228, 255, 255, 255),
+                            fontSize: 17,
                             fontWeight: FontWeight.w400,
                           ),
                           textAlign: TextAlign.left,

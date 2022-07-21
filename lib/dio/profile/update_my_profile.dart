@@ -13,7 +13,7 @@ Future<Map<String, dynamic>> dioApiUpdateMyProfile(Map profileData, String acces
       "name": profileData["name"],
       "groups": profileData["groups"],
     });
-    Response response = await dio.post('user/setting', data: formData);
+    Response response = await dio.post('/user/setting', data: formData);
     return {
       "statusCode": response.statusCode,
       'data': response.data['res_image_name'],

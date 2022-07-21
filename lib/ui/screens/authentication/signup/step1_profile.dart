@@ -196,7 +196,7 @@ class _Step1ProfileState extends State<Step1Profile> {
   }
 
   Future getImageFromGallery() async {
-    await ImagePicker().pickImage(source: ImageSource.gallery).then((image) {
+    await ImagePicker().pickImage(source: ImageSource.gallery, imageQuality: 30).then((image) {
       setState(() {
         _image = image;
       });

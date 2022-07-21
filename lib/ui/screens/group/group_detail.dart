@@ -105,13 +105,19 @@ class _GroupDetailState extends State<GroupDetail> {
                             child: Container(
                               margin: const EdgeInsets.only(top: 4, bottom: 4),
                               child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Icon(Icons.people,
-                                      color: Colors.white, size: 16),
-                                  const SizedBox(
-                                    width: 8,
+                                  Row(
+                                    children: [
+                                      const Icon(Icons.people,
+                                          color: Colors.white, size: 16),
+                                      const SizedBox(
+                                        width: 8,
+                                      ),
+                                      Font(text: myFriendString, size: 16),
+                                    ],
                                   ),
-                                  Font(text: myFriendString, size: 16),
+                                  const Icon(Icons.chevron_right, color: Colors.white, size: 20),
                                 ],
                               ),
                             ),
@@ -271,13 +277,13 @@ class _GroupDetailState extends State<GroupDetail> {
           _people = newResPeople;
           _friends = resFriends;
           if (_friends.length == 1) {
-            myFriendString = '${_friends[0]["name"]}님이 소속되어 있습니다.';
+            myFriendString = '${_friends[0]["name"]}님이 친구입니다.';
           } else if (_friends.length == 2) {
             myFriendString =
-                '${_friends[0]["name"]}, ${_friends[1]["name"]}님이 소속되어 있습니다.';
+                '${_friends[0]["name"]}, ${_friends[1]["name"]}님이 친구입니다.';
           } else if (_friends.length > 2) {
             myFriendString =
-                '${_friends[0]["name"]}, ${_friends[1]["name"]}님 외 ${_friends.length - 2}명이 소속되어 있습니다.';
+                '${_friends[0]["name"]}, ${_friends[1]["name"]}님 외 ${_friends.length - 2}명이 친구입니다.';
           }
         });
       } else if (statusCode == 401) {

@@ -5,7 +5,7 @@ Future<Map<String, dynamic>> dioApiUser(
     String accessToken, int userId) async {
   Dio dio = DioInstance(accessToken).dio;
   try {
-    Response response = await dio.get('user/profile/$userId');
+    Response response = await dio.get('/user/profile/$userId');
     return {
       'statusCode': response.statusCode,
       'data': {

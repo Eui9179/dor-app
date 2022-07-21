@@ -6,7 +6,7 @@ Future<Map<String, dynamic>> dioApiInsertFriendOne(
   Dio dio = DioInstance(accessToken).dio;
 
   try {
-    Response response = await dio.post('user/friend', data: {'friend_id': friendId});
+    Response response = await dio.post('/user/friend', data: {'friend_id': friendId});
     return {
       'statusCode': response.statusCode,
       'data': response.data['new_friend']
