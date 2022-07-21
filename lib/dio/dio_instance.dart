@@ -1,8 +1,10 @@
 
 import 'package:dio/dio.dart';
 
-String baseUri = "http://192.168.0.13:8000/api";
-String cdnProfileImageBaseUri = "http://192.168.0.13:5000/cdn/profile/image/";
+String baseUri = "http://192.168.0.13/api";
+
+String cdnProfileImageBaseUri = "http://192.168.0.13/cdn/profile/image/";
+
 class DioInstance{
   final _dio = Dio();
   final String? accessToken;
