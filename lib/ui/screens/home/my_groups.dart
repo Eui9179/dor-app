@@ -1,6 +1,5 @@
 import 'package:dor_app/controller/access_token_controller.dart';
 import 'package:dor_app/controller/my_groups_controller.dart';
-import 'package:dor_app/controller/my_profile_controller.dart';
 import 'package:dor_app/dio/group/get_my_groups.dart';
 import 'package:dor_app/ui/static_widget/dividing_line.dart';
 import 'package:dor_app/utils/notification.dart';

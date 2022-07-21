@@ -14,6 +14,4 @@ Future<Map<String, dynamic>>dioApiSyncMyFriendsiends(
     print(error);
     return {"statusCode": error.response!.statusCode};
   }
-
-  return {};
 }

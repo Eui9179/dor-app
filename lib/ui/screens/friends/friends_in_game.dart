@@ -1,12 +1,10 @@
 import 'package:dor_app/controller/my_friends_controller.dart';
-import 'package:dor_app/ui/dynamic_widget/avatar/group_avatar.dart';
 import 'package:dor_app/utils/dor_games.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../utils/color_palette.dart';
 import '../../dynamic_widget/avatar/friend_avatar.dart';
-import '../../dynamic_widget/avatar/game_logo_avatar.dart';
 import '../../dynamic_widget/font/font.dart';
 import '../../dynamic_widget/font/subject_title.dart';
 
@@ -18,7 +16,7 @@ class FriendsInGame extends StatefulWidget {
 }
 
 class _FriendsInGameState extends State<FriendsInGame> {
-  List<dynamic> _friends = [];
+  final List<dynamic> _friends = [];
   final String gameName = Get.parameters["gameName"]!;
 
   @override
@@ -76,7 +74,7 @@ class _FriendsInGameState extends State<FriendsInGame> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            margin: EdgeInsets.only(top: 20, left: 13, right: 13),
+            margin: const EdgeInsets.only(top: 20, left: 13, right: 13),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

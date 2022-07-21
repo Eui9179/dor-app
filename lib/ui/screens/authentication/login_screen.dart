@@ -1,4 +1,3 @@
-import 'package:dor_app/ui/screens/authentication/input_phone_number.dart';
 import 'package:dor_app/ui/static_widget/dor_logo_and_name.dart';
 import 'package:dor_app/utils/color_palette.dart';
 import 'package:flutter/material.dart';

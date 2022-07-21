@@ -23,16 +23,16 @@ class ProfileCard extends StatelessWidget {
               height: 150,
             )),
         FractionalTranslation(
-          translation: Offset(0.0, -0.4),
+          translation: const Offset(0.0, -0.4),
           child: Align(
-            alignment: FractionalOffset(0.5, 0.0),
+            alignment: const FractionalOffset(0.5, 0.0),
             child: Column(
               children: [
                 ProfileAvatar(
                   image: image,
                 ),
                 Text(text,
-                    style: TextStyle(fontSize: 30, color: Colors.black87))
+                    style: const TextStyle(fontSize: 30, color: Colors.black87))
               ],
             ),
           ),

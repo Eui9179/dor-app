@@ -1,4 +1,3 @@
-import 'package:dor_app/ui/dynamic_widget/avatar/profile_avatar.dart';
 import 'package:dor_app/utils/color_palette.dart';
 import 'package:flutter/material.dart';
 

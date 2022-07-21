@@ -13,7 +13,7 @@ class MoreIconButton extends StatelessWidget {
       splashRadius: 20,
       tooltip: "더보기",
       padding: EdgeInsets.zero,
-      constraints: BoxConstraints(),
+      constraints: const BoxConstraints(),
       icon: const Icon(Icons.more_vert,
           color: ColorPalette.font, size: 20),
     );

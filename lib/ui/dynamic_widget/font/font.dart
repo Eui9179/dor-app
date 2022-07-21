@@ -5,7 +5,7 @@ class Font extends StatelessWidget {
   const Font({Key? key, required this.text, required this.size})
       : super(key: key);
 
-  final text;
+  final String text;
   final double size;
 
   @override

@@ -3,14 +3,12 @@ import 'package:dor_app/dio/auth/login.dart';
 import 'package:dor_app/main.dart';
 import 'package:dor_app/ui/dynamic_widget/button/rounded_button.dart';
 import 'package:dor_app/ui/layout/app_bar/logo_app_bar.dart';
-import 'package:dor_app/ui/screens/authentication/signup/step1_profile.dart';
 import 'package:dor_app/utils/color_palette.dart';
 import 'package:dor_app/utils/notification.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinput/pinput.dart';
-import '../../../utils/page_route_animation.dart';
 import '../../dynamic_widget/font/font.dart';
 
 class Verification extends StatefulWidget {

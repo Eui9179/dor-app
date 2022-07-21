@@ -62,7 +62,7 @@ class _MyGamesState extends State<MyGames> {
                 scrollDirection: Axis.horizontal,
                 itemCount: _userGameList.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return GameCard(gameName: _userGameList[index]['game'], isMe: true, nickname:  _userGameList[index]['nickname'] ?? null,);
+                  return GameCard(gameName: _userGameList[index]['game'], isMe: true, nickname:  _userGameList[index]['nickname'],);
                 },
               ),
             )

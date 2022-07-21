@@ -1,4 +1,3 @@
-import 'package:dor_app/main.dart';
 import 'package:dor_app/ui/static_widget/dor_logo.dart';
 import 'package:dor_app/utils/color_palette.dart';
 import 'package:flutter/material.dart';

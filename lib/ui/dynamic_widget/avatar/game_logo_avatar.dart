@@ -1,5 +1,4 @@
 import 'package:dor_app/utils/color_palette.dart';
-import 'package:dor_app/utils/dor_games.dart';
 import 'package:flutter/material.dart';
 
 class GameLogoAvatar extends StatelessWidget {

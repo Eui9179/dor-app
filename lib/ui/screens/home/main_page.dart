@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
-import '../../../controller/my_friends_controller.dart';
 import '../../../utils/color_palette.dart';
 import 'main_page_bar.dart';
 import 'my_friends.dart';

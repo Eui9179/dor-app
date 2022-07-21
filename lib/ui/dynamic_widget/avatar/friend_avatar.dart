@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class FriendAvatar extends StatelessWidget {
   const FriendAvatar({Key? key, required this.image}) : super(key: key);
-  final image;
+  final String image;
 
   @override
   Widget build(BuildContext context) {
