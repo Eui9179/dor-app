@@ -42,9 +42,9 @@ class _MyGroupsState extends State<MyGroups> {
                   itemCount: _myGroups.length,
                   itemBuilder: (BuildContext context, int index) {
                     return GroupTextButton(
-                      text: _myGroups[index],
+                      text: '${_myGroups[index]["name"]} ${_myGroups[index]['detail1']}학년',
                       onTap: () {
-                        Get.toNamed("/group/detail?name=${_myGroups[index]}");
+                        Get.toNamed("/group/detail1?name=${_myGroups[index]['name']}&detail1=${_myGroups[index]['detail1']}");
                       },
                     );
                   }),

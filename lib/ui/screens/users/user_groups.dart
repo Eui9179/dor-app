@@ -22,55 +22,20 @@ class UserGroups extends StatelessWidget {
               itemCount: userGroups.length,
               itemBuilder: (BuildContext context, int index) {
                 return GroupTextButton(
-                  text: userGroups[index],
+                  text:
+                      '${userGroups[index]['name']} ${userGroups[index]['detail1']}학년',
                   onTap: () {
-                    Get.toNamed("/group/detail?name=${userGroups[index]}");
+                    Get.toNamed(
+                        "/group/detail1?name=${userGroups[index]['name']}&detail1=${userGroups[index]['detail1']}");
                   },
                 );
               }),
-          const SizedBox(height: 5,),
+          const SizedBox(
+            height: 5,
+          ),
           const DividingLine()
         ],
       ),
     );
   }
 }
-
-
-// class UserGroups extends StatefulWidget {
-//   const UserGroups({Key? key, required this.userGroups}) : super(key: key);
-//   final List<dynamic> userGroups;
-//
-//
-//   @override
-//   State<UserGroups> createState() => _UserGroupsState();
-// }
-//
-// class _UserGroupsState extends State<UserGroups> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       padding: const EdgeInsets.only(left: 13, bottom: 15, right: 13),
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           ListView.builder(
-//               shrinkWrap: true,
-//               itemExtent: 28.0,
-//               physics: const NeverScrollableScrollPhysics(),
-//               itemCount: widget.userGroups.length,
-//               itemBuilder: (BuildContext context, int index) {
-//                 return GroupTextButton(
-//                   text: widget.userGroups[index],
-//                   onTap: () {
-//                     Get.toNamed("/group/detail?name=${widget.userGroups[index]}");
-//                   },
-//                 );
-//               }),
-//           const SizedBox(height: 5,),
-//           const DividingLine()
-//         ],
-//       ),
-//     );
-//   }
-// }

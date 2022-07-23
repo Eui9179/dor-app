@@ -39,7 +39,7 @@ class _SettingState extends State<Setting> {
   void initState() {
     super.initState();
     //TODO: 현재는 그룹 한개만
-    _typeAheadController.text = Get.find<MyGroupsController>().groups[0];
+    _typeAheadController.text = Get.find<MyGroupsController>().groups[0]["name"];
     _name = Get.find<MyProfileController>().name;
     _originImage = Get.find<MyProfileController>().profileImage;
   }

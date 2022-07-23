@@ -46,6 +46,7 @@ dependencies:
   contacts_service: ^0.6.3
   flutter_typeahead: ^4.0.0
   popover: ^0.2.6+3
+  direct_select_flutter: ^1.1.1
 
 dev_dependencies:
   flutter_test:

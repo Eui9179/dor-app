@@ -6,6 +6,7 @@ import 'package:dor_app/ui/screens/authentication/verification.dart';
 import 'package:dor_app/ui/screens/friends/friends_in_game.dart';
 import 'package:dor_app/ui/screens/group/group_detail.dart';
 import 'package:dor_app/ui/screens/friends/acquaintance.dart';
+import 'package:dor_app/ui/screens/group/group_detail1.dart';
 import 'package:dor_app/ui/screens/setting/games.dart';
 import 'package:dor_app/ui/screens/setting/settting.dart';
 import 'package:dor_app/ui/screens/users/users.dart';
@@ -43,6 +44,10 @@ List<GetPage> pages = [
   GetPage(
       name: '/group/detail',
       page: () => const GroupDetail(),
+      transition: Transition.rightToLeft),
+  GetPage(
+      name: '/group/detail1',
+      page: () => const GroupDetail1(),
       transition: Transition.rightToLeft),
   GetPage(
       name: '/acquaintance',

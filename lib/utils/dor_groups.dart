@@ -17,6 +17,22 @@ class DorGroups {
     matches.retainWhere((s) => s.toLowerCase().contains(query.toLowerCase()));
     return matches;
   }
+
+  static final List<String> statesDetail = [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+  ];
+
+  static List<String> getSugDetail(String query) {
+    List<String> matches = [];
+    matches.addAll(statesDetail);
+    matches.retainWhere((s) => s.toLowerCase().contains(query.toLowerCase()));
+    return matches;
+  }
 }
 
 

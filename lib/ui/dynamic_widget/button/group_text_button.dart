@@ -18,7 +18,7 @@ class GroupTextButton extends StatelessWidget {
             children: [
               const Icon(Icons.school_sharp, color: ColorPalette.font, size: 19,),
               const SizedBox(width: 10,),
-              Text(text, style: const TextStyle(color: ColorPalette.font, fontWeight: FontWeight.w300, fontSize: 19),),
+              Text(text, style: const TextStyle(color: ColorPalette.font, fontWeight: FontWeight.w400, fontSize: 20),),
             ],
           ),
           const Icon(Icons.chevron_right, color: ColorPalette.font,size: 18,),

@@ -11,6 +11,7 @@ Future<Map<String, dynamic>> dioApiSignup(Map profileData) async {
           : null,
       "name": profileData["name"],
       "groups": profileData["groups"],
+      "detail1": profileData["detail1"],
       "phone_number": profileData["phoneNumber"],
       "fcm_token": profileData["fcmToken"]
     });

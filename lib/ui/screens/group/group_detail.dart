@@ -74,7 +74,7 @@ class _GroupDetailState extends State<GroupDetail> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Font(
-                          text: groupName,
+                          text: '$groupName',
                           size: 23,
                         ),
                         const SizedBox(
