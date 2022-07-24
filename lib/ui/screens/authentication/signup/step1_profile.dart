@@ -282,12 +282,4 @@ class _Step1ProfileState extends State<Step1Profile> {
     return result;
   }
 
-  DirectSelectItem<String> getDropDownMenuItem(String value) {
-    return DirectSelectItem<String>(
-        itemHeight: 56,
-        value: value,
-        itemBuilder: (context, value) {
-          return Text(value);
-        });
-  }
 }

@@ -23,7 +23,7 @@ class MainPageBar extends StatelessWidget implements PreferredSizeWidget {
             SizedBox(
               width: 8,
             ),
-            Text('DOR',
+            Text('Fine',
                 style: TextStyle(
                   color: ColorPalette.font,
                   fontSize: 35,

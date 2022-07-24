@@ -30,8 +30,11 @@ class _SettingState extends State<Setting> {
   XFile? _image;
   String? _name;
   String _originImage = '';
+  String _detail1 = '';
   bool _isName = true;
+  bool _isNameChange = false;
   bool _isGroup = true;
+  bool _isGroupChange = false;
   bool _isFile = false;
   bool _isLoading = false;
 
@@ -39,7 +42,9 @@ class _SettingState extends State<Setting> {
   void initState() {
     super.initState();
     //TODO: 현재는 그룹 한개만
-    _typeAheadController.text = Get.find<MyGroupsController>().groups[0]["name"];
+    _typeAheadController.text =
+        Get.find<MyGroupsController>().groups[0]["name"];
+    _detail1 = Get.find<MyGroupsController>().groups[0]["detail1"];
     _name = Get.find<MyProfileController>().name;
     _originImage = Get.find<MyProfileController>().profileImage;
   }
@@ -132,7 +137,7 @@ class _SettingState extends State<Setting> {
                   height: 20,
                 ),
                 Container(
-                  margin: const EdgeInsets.only(top: 10, bottom: 10),
+                  margin: const EdgeInsets.only(top: 15, bottom: 15),
                   child: Column(
                     children: [
                       TextFormField(
@@ -155,6 +160,7 @@ class _SettingState extends State<Setting> {
                           } else {
                             setState(() {
                               _isName = true;
+                              _isNameChange = true;
                             });
                           }
                         },
@@ -183,9 +189,6 @@ class _SettingState extends State<Setting> {
                       ),
                     ],
                   ),
-                ),
-                const SizedBox(
-                  height: 15,
                 ),
                 TypeAheadField(
                     textFieldConfiguration: TextFieldConfiguration(
@@ -220,6 +223,7 @@ class _SettingState extends State<Setting> {
                             _groups.clear(); // 그룹 여러개로 했을 때 지워야됨
                             _groups.add(val);
                             _isGroup = true;
+                            _isGroupChange = true;
                           });
                         }
                       },
@@ -241,8 +245,62 @@ class _SettingState extends State<Setting> {
                         _groups.clear();
                         _groups.add(_typeAheadController.text);
                         _isGroup = true;
+                        _isGroupChange = true;
                       });
                     }),
+                Container(
+                  margin: EdgeInsets.only(top: 20, bottom: 10),
+                  height: 60,
+                  child: InputDecorator(
+                    decoration: InputDecoration(
+                      fillColor: const Color.fromARGB(255, 62, 62, 75),
+                      filled: true,
+                      labelText: '학년을 입력해주세요',
+                      labelStyle: const TextStyle(
+                          color: Color.fromARGB(255, 206, 206, 215),
+                          fontSize: 20),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                          borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 52, 52, 71),
+                              width: 2)),
+                    ),
+                    child: DropdownButton<String>(
+                        value: _detail1,
+                        icon: const Icon(Icons.arrow_drop_down),
+                        elevation: 16,
+                        style: const TextStyle(color: ColorPalette.font),
+                        isExpanded: true,
+                        dropdownColor: ColorPalette.mainBackgroundColor,
+                        underline: Container(
+                          height: 2,
+                        ),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            _detail1 = newValue!;
+                            _isGroupChange = true;
+                          });
+                        },
+                        items: _groups.isEmpty || _groups[0].contains("초등학교")
+                            ? <String>['1', '2', '3', '4', '5', '6']
+                                .map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList()
+                            : <String>['1', '2', '3']
+                                .map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList()),
+                  ),
+                ),
                 const SizedBox(
                   height: 80,
                 ),
@@ -284,9 +342,14 @@ class _SettingState extends State<Setting> {
       Map profileData = {
         'isFile': _isFile,
         'file': _image,
-        'name': _name,
-        'groups': [_typeAheadController.text]
+        'name': _isNameChange ? _name : null,
+        'groups': _isGroupChange
+            ? [
+                {'name': _typeAheadController.text, 'detail1': _detail1}
+              ]
+            : null,
       };
+      print('profileData $profileData');
       Future<Map<String, dynamic>> response =
           dioApiUpdateMyProfile(profileData, accessToken);
       response.then((res) {
@@ -296,8 +359,9 @@ class _SettingState extends State<Setting> {
         int statusCode = res["statusCode"];
         if (statusCode == 200) {
           Get.find<MyProfileController>().setMyName(_name!);
-          Get.find<MyGroupsController>()
-              .setMyGroups([_typeAheadController.text]);
+          Get.find<MyGroupsController>().setMyGroups([
+            {'name': _typeAheadController.text, 'detail1': _detail1}
+          ]);
           Get.find<MyProfileController>().setMyProfileImage(res['data']);
           notification(context, '저장 완료!', warning: false);
         } else if (statusCode == 401) {
@@ -333,7 +397,9 @@ class _SettingState extends State<Setting> {
   }
 
   Future getImageFromGallery() async {
-    await ImagePicker().pickImage(source: ImageSource.gallery, imageQuality: 30).then((image) {
+    await ImagePicker()
+        .pickImage(source: ImageSource.gallery, imageQuality: 30)
+        .then((image) {
       setState(() {
         _image = image;
         if (image == null) {
