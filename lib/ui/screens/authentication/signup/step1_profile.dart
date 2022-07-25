@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class Step1Profile extends StatefulWidget {
   const Step1Profile({Key? key}) : super(key: key);
@@ -175,7 +176,7 @@ class _Step1ProfileState extends State<Step1Profile> {
                       }),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 10, bottom: 10),
+                  margin: const EdgeInsets.only(top: 10, bottom: 10),
                   height: 60,
                   child: InputDecorator(
                     decoration: InputDecoration(
@@ -214,14 +215,18 @@ class _Step1ProfileState extends State<Step1Profile> {
                                 .map<DropdownMenuItem<String>>((String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,
-                                  child: Text(value),
+                                  child: Text(value,
+                                      style: TextStyle(fontSize: 20)),
                                 );
                               }).toList()
                             : <String>['1', '2', '3']
                                 .map<DropdownMenuItem<String>>((String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,
-                                  child: Text(value),
+                                  child: Text(
+                                    value,
+                                    style: TextStyle(fontSize: 20),
+                                  ),
                                 );
                               }).toList()),
                   ),
@@ -264,13 +269,18 @@ class _Step1ProfileState extends State<Step1Profile> {
   }
 
   Future getImageFromGallery() async {
-    await ImagePicker()
-        .pickImage(source: ImageSource.gallery, imageQuality: 30)
-        .then((image) {
-      setState(() {
-        _image = image;
+    var status = await Permission.storage.status;
+    if (status.isGranted){
+      await ImagePicker()
+          .pickImage(source: ImageSource.gallery, imageQuality: 30)
+          .then((image) {
+        setState(() {
+          _image = image;
+        });
       });
-    });
+    } else if (status.isDenied){
+      Permission.storage.request();
+    }
   }
 
   String? _listToPrefixText() {
@@ -281,5 +291,4 @@ class _Step1ProfileState extends State<Step1Profile> {
     }
     return result;
   }
-
 }

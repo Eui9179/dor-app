@@ -7,4 +7,9 @@ class MyGroupsController extends GetxController {
     this.groups = groups;
     update();
   }
+
+  void clear(){
+    groups = [];
+    update();
+  }
 }

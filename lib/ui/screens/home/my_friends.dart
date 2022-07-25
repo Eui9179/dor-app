@@ -29,9 +29,8 @@ class _MyFriendsState extends State<MyFriends> {
   @override
   void initState() {
     super.initState();
-    _initMyFriendList();
+    _accessToken = Get.find<AccessTokenController>().accessToken;
   }
-
   @override
   Widget build(BuildContext context) {
     return GetBuilder<MyFriendsController>(
@@ -171,11 +170,6 @@ class _MyFriendsState extends State<MyFriends> {
       },
 
     );
-  }
-
-  _initMyFriendList() {
-    _accessToken = Get.find<AccessTokenController>().accessToken;
-    _getMyFriendList();
   }
 
   _getMyFriendList() async {

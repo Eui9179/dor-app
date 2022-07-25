@@ -1,4 +1,5 @@
 import 'package:dor_app/ui/static_widget/dor_logo.dart';
+import 'package:dor_app/ui/static_widget/woojoo_logo.dart';
 import 'package:dor_app/utils/color_palette.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -19,11 +20,11 @@ class MainPageBar extends StatelessWidget implements PreferredSizeWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: const [
-            DorLogo(),
+            WoojooLogo(),
             SizedBox(
               width: 8,
             ),
-            Text('Fine',
+            Text('',
                 style: TextStyle(
                   color: ColorPalette.font,
                   fontSize: 35,

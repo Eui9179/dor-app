@@ -7,4 +7,8 @@ class MyFriendsController extends GetxController {
     myFriends = newMyFriends;
     update();
   }
+  void clear(){
+    myFriends = [];
+    update();
+  }
 }

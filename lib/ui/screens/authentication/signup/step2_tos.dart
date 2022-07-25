@@ -137,7 +137,7 @@ class _Step2TOSState extends State<Step2TOS> {
         String accessToken = res["data"];
         storage.write(key: "accessToken", value: accessToken);
         Get.find<AccessTokenController>().setAccessToken(accessToken);
-        Get.offNamed('/setting/games');
+        Get.offNamed('/setting/games?type=signup');
       } else if (statusCode == 409) {
         notification(context, "이미 가입된 회원입니다. 로그인해주세요");
       } else if (statusCode == 500) {

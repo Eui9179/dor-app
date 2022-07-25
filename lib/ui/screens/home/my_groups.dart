@@ -18,12 +18,12 @@ class MyGroups extends StatefulWidget {
 class _MyGroupsState extends State<MyGroups> {
   List<dynamic> _myGroups = [];
 
-  @override
-  void initState() {
-    print('_initMyGroups');
-    super.initState();
-    _initMyGroups();
-  }
+  // @override
+  // void initState() {
+  //   print('_initMyGroups');
+  //   super.initState();
+  //   _initMyGroups();
+  // }
 
   @override
   Widget build(BuildContext context) {

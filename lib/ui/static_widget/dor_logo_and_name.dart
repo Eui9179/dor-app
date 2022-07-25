@@ -1,3 +1,4 @@
+import 'package:dor_app/ui/static_widget/woojoo_logo.dart';
 import 'package:flutter/material.dart';
 import '../../utils/color_palette.dart';
 import 'dor_logo.dart';
@@ -13,15 +14,15 @@ class DorLogoAndName extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: const [
-          DorLogo(),
+          WoojooLogo(),
           SizedBox(
             width: 8,
           ),
-          Text('DOR',
+          Text('우주',
               style: TextStyle(
                 color: ColorPalette.font,
-                fontSize: 35,
-                fontWeight: FontWeight.bold,
+                fontSize: 30,
+                fontWeight: FontWeight.w500,
               ))
         ],
       ),

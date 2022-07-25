@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:dor_app/controller/access_token_controller.dart';
+import 'package:dor_app/controller/my_friends_controller.dart';
+import 'package:dor_app/controller/my_games_controller.dart';
 import 'package:dor_app/controller/my_groups_controller.dart';
 import 'package:dor_app/controller/my_profile_controller.dart';
 import 'package:dor_app/dio/auth/withdrawal.dart';
@@ -15,6 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class Setting extends StatefulWidget {
   const Setting({Key? key}) : super(key: key);
@@ -249,7 +252,7 @@ class _SettingState extends State<Setting> {
                       });
                     }),
                 Container(
-                  margin: EdgeInsets.only(top: 20, bottom: 10),
+                  margin: const EdgeInsets.only(top: 20, bottom: 10),
                   height: 60,
                   child: InputDecorator(
                     decoration: InputDecoration(
@@ -289,14 +292,14 @@ class _SettingState extends State<Setting> {
                                 .map<DropdownMenuItem<String>>((String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,
-                                  child: Text(value),
+                                  child: Text(value, style: TextStyle(fontSize: 20),),
                                 );
                               }).toList()
                             : <String>['1', '2', '3']
                                 .map<DropdownMenuItem<String>>((String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,
-                                  child: Text(value),
+                                  child: Text(value, style: TextStyle(fontSize: 20)),
                                 );
                               }).toList()),
                   ),
@@ -389,7 +392,12 @@ class _SettingState extends State<Setting> {
       int statusCode = res['statusCode'];
       if (statusCode == 200) {
         storage.delete(key: "accessToken");
-        Get.offAllNamed('/login');
+        Get.find<AccessTokenController>().clear();
+        Get.find<MyGroupsController>().clear();
+        Get.find<MyProfileController>().clear();
+        Get.find<MyFriendsController>().clear();
+        Get.find<MyGamesController>().clear();
+        Get.offAllNamed('/');
       } else {
         notification(context, '죄송합니다. 다시 실행시켜주세요[$statusCode]');
       }
@@ -397,17 +405,22 @@ class _SettingState extends State<Setting> {
   }
 
   Future getImageFromGallery() async {
-    await ImagePicker()
-        .pickImage(source: ImageSource.gallery, imageQuality: 30)
-        .then((image) {
-      setState(() {
-        _image = image;
-        if (image == null) {
-          _originImage = 'default';
-        }
-        _isFile = true;
+    var status = await Permission.storage.status;
+    if (status.isGranted){
+      await ImagePicker()
+          .pickImage(source: ImageSource.gallery, imageQuality: 30)
+          .then((image) {
+        setState(() {
+          _image = image;
+          if (image == null) {
+            _originImage = 'default';
+          }
+          _isFile = true;
+        });
       });
-    });
+    } else if (status.isDenied){
+      Permission.storage.request();
+    }
   }
 
   Future<String?> _showTextInputDialog(BuildContext context) async {

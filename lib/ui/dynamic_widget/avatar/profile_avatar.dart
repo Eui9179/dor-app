@@ -1,4 +1,5 @@
 import 'package:dor_app/dio/dio_instance.dart';
+import 'package:dor_app/utils/color_palette.dart';
 import 'package:flutter/material.dart';
 
 class ProfileAvatar extends StatelessWidget {
@@ -11,6 +12,7 @@ class ProfileAvatar extends StatelessWidget {
     return CircleAvatar(
       radius: 45.0,
       child: CircleAvatar(
+        backgroundColor: ColorPalette.mainBackgroundColor,
         backgroundImage: image != "default"
             ? NetworkImage('$cdnProfileImageBaseUri$image')
             : const AssetImage("assets/images/logo/default.png")

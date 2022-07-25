@@ -7,6 +7,7 @@ import 'package:dor_app/ui/screens/friends/friends_in_game.dart';
 import 'package:dor_app/ui/screens/group/group_detail.dart';
 import 'package:dor_app/ui/screens/friends/acquaintance.dart';
 import 'package:dor_app/ui/screens/group/group_detail1.dart';
+import 'package:dor_app/ui/screens/home/main_page.dart';
 import 'package:dor_app/ui/screens/setting/games.dart';
 import 'package:dor_app/ui/screens/setting/settting.dart';
 import 'package:dor_app/ui/screens/users/users.dart';
@@ -19,7 +20,13 @@ List<GetPage> pages = [
   GetPage(
       name: '/login',
       page: () => const LoginPage(),
-      transition: Transition.rightToLeft),
+      // transition: Transition.rightToLeft
+  ),
+  GetPage(
+      name: '/home',
+      page: () => const MainPage(),
+      // transition: Transition.rightToLeft
+  ),
   GetPage(
       name: '/auth',
       page: () => const InputPhoneNumber(),

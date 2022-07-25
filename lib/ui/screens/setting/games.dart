@@ -1,11 +1,15 @@
 import 'package:dor_app/controller/access_token_controller.dart';
+import 'package:dor_app/controller/my_games_controller.dart';
+import 'package:dor_app/dio/friend/get_my_friends.dart';
 import 'package:dor_app/dio/game/get_my_games.dart';
 import 'package:dor_app/dio/game/update_my_games.dart';
 import 'package:dor_app/ui/dynamic_widget/font/subject_title.dart';
 import 'package:dor_app/utils/color_palette.dart';
+import 'package:dor_app/utils/notification.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../controller/my_friends_controller.dart';
 import '../../../utils/dor_games.dart';
 
 List<String> gameList = getDorGameList();
@@ -20,6 +24,7 @@ class GamesSetting extends StatefulWidget {
 class _GamesSettingState extends State<GamesSetting> {
   List<Map> _gameList = [];
   List<dynamic> _myGames = [];
+  String type = Get.parameters['type']!;
 
   @override
   void initState() {
@@ -132,7 +137,22 @@ class _GamesSettingState extends State<GamesSetting> {
     response.then((res) {
       int statusCode = res["statusCode"];
       if (statusCode == 200) {
-        Get.offAllNamed('/');
+        if (type == 'signup') {
+          Get.offAllNamed('/');
+        } else if (type == 'setting') {
+          Get.find<MyGamesController>().setMyGames(res['data']);
+          Future<Map<String, dynamic>> response = dioApiGetMyFriends(accessToken);
+          response.then((res){
+            if (statusCode == 200) {
+              Get.find<MyFriendsController>().setMyFriends(res['data']);
+            } else if (statusCode == 401) {
+              notification(context, '다시 로그인 해주세요');
+            } else {
+              print('_getMyFriendList() error: $statusCode');
+            }
+          });
+          Get.back();
+        }
       } else {
         print("step3Game _onPressed() error: $statusCode");
       }
@@ -150,24 +170,14 @@ class _GamesSettingState extends State<GamesSetting> {
   }
 
   _initMyGames() {
-    String accessToken = Get.find<AccessTokenController>().accessToken;
-    Future<Map<String, dynamic>> response = dioApiGetMyGames(accessToken);
-    response.then((res) {
-      int statusCode = res['statusCode'];
-      if (statusCode == 200) {
-        setState(() {
-          _myGames = res['data'];
-          List<String> myGames = List.generate(_myGames.length, (index) => _myGames[index]['game']);
-          _gameList = List.generate(gameList.length, (index) {
-            if (myGames.contains(gameList[index])){
-              return {'gameName': gameList[index], 'isSelected': true};
-            }
-            return {'gameName': gameList[index], 'isSelected': false};
-          });
-        });
-      } else {
-        print('_initMyGames(): $statusCode');
+    _myGames = Get.find<MyGamesController>().games;
+    List<String> myGames =
+        List.generate(_myGames.length, (index) => _myGames[index]['game']);
+    _gameList = List.generate(gameList.length, (index) {
+      if (myGames.contains(gameList[index])) {
+        return {'gameName': gameList[index], 'isSelected': true};
       }
+      return {'gameName': gameList[index], 'isSelected': false};
     });
   }
 }

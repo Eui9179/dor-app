@@ -7,4 +7,8 @@ class AccessTokenController extends GetxController {
     this.accessToken = accessToken;
     update();
   }
+  void clear(){
+    accessToken = '';
+    update();
+  }
 }
