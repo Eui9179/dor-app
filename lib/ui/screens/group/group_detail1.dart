@@ -53,295 +53,297 @@ class _GroupDetail1State extends State<GroupDetail1> {
                 color: ColorPalette.font),
           ),
         ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 13.0, left: 13.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                          margin: const EdgeInsets.only(top: 15, bottom: 15),
-                          child: GroupAvatar(image: groupName)),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Font(
-                                text: '$groupName $detail1학년',
-                                size: 23,
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              SubjectTitle(
-                                title:
-                                    '${_people.length + _friends.length}명이 소속되어 있습니다.',
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  FontButton(
-                    onPressed: () {
-                      Get.toNamed("/group/detail?name=$groupName");
-                    },
-                    text: '전체 보기',
-                    color: Colors.blueAccent,
-                  )
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(right: 13.0, left: 13.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('$groupName 친구들',
-                      style: const TextStyle(
-                          color: Color.fromARGB(255, 172, 172, 172),
-                          fontSize: 18)),
-                  Row(
-                    children: [
-                      SubjectTitle(title: '${_friends.length.toString()} 명'),
-                      const SizedBox(width: 10),
-                    ],
-                  )
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            ListView.builder(
-                shrinkWrap: true,
-                itemExtent: 75.0,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: _friends.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return InkWell(
-                    onTap: () {
-                      Get.toNamed('/users/${_friends[index]['id']}');
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 13.0, left: 13.0),
-                      child: Row(
-                        children: [
-                          FriendAvatar(
-                              image: _friends[index]["profile_image_name"]),
-                          const SizedBox(
-                            width: 13,
-                          ),
-                          Expanded(
-                            flex: 8,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 13.0, left: 13.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                            margin: const EdgeInsets.only(top: 15, bottom: 15),
+                            child: GroupAvatar(image: groupName)),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Font(
-                                        text: _friends[index]["name"],
-                                        size: 18),
-                                    _friends[index]['games'].length != 0
-                                        ? const SizedBox(
-                                            height: 8,
-                                          )
-                                        : const SizedBox(),
-                                    _friends[index]['games'].length != 0
-                                        ? Row(
-                                            children: [
-                                              if (_friends[index]['games']
-                                                      .length ==
-                                                  1) ...[
-                                                GameLogoAvatar(
-                                                    gameName: _friends[index]
-                                                        ['games'][0]),
-                                                const SizedBox(
-                                                  width: 5,
-                                                ),
-                                                const SubjectTitle(
-                                                    title: "함께 하는 게임 1개")
-                                              ],
-                                              if (_friends[index]['games']
-                                                      .length >
-                                                  1) ...[
-                                                SizedBox(
-                                                  width: 52,
-                                                  child: Stack(children: [
-                                                    Positioned(
-                                                        left: 18,
-                                                        child: GameLogoAvatar(
-                                                            gameName: _friends[
-                                                                    index]
-                                                                ['games'][1])),
-                                                    Positioned(
-                                                        child: GameLogoAvatar(
-                                                            gameName: _friends[
-                                                                    index]
-                                                                ['games'][0])),
-                                                  ]),
-                                                ),
-                                                SubjectTitle(
-                                                    title:
-                                                        "함께 하는 게임 ${_friends[index]['games'].length}개")
-                                              ]
-                                            ],
-                                          )
-                                        : const SizedBox()
-                                  ],
+                                Font(
+                                  text: '$groupName $detail1학년',
+                                  size: 23,
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                SubjectTitle(
+                                  title:
+                                      '${_people.length + _friends.length}명이 소속되어 있습니다.',
                                 ),
                               ],
                             ),
-                          ),
-                        ],
-                      ),
+                          ],
+                        ),
+                      ],
                     ),
-                  );
-                }),
-            Padding(
-              padding: const EdgeInsets.only(right: 13.0, left: 13.0, top: 15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text('알 수도 있는 친구들',
-                      style: TextStyle(
-                          color: Color.fromARGB(255, 172, 172, 172),
-                          fontSize: 18)),
-                  Row(
-                    children: [
-                      SubjectTitle(title: '${_people.length.toString()} 명'),
-                      const SizedBox(width: 10),
-                    ],
-                  )
-                ],
+                    FontButton(
+                      onPressed: () {
+                        Get.toNamed("/group/detail?name=$groupName");
+                      },
+                      text: '전체 보기',
+                      color: Colors.blueAccent,
+                    )
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            ListView.builder(
-                shrinkWrap: true,
-                itemExtent: 75.0,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: _people.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return InkWell(
-                    onTap: () {
-                      Get.toNamed('/users/${_people[index]['id']}');
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 13.0, left: 13.0),
-                      child: Row(
-                        children: [
-                          FriendAvatar(
-                              image: _people[index]["profile_image_name"]),
-                          const SizedBox(
-                            width: 13,
-                          ),
-                          Expanded(
-                            flex: 8,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Font(
-                                        text: _people[index]["name"], size: 18),
-                                    _people[index]['games'].length != 0
-                                        ? const SizedBox(
-                                            height: 8,
-                                          )
-                                        : const SizedBox(),
-                                    _people[index]['games'].length != 0
-                                        ? Row(
-                                            children: [
-                                              if (_people[index]['games']
-                                                      .length ==
-                                                  1) ...[
-                                                GameLogoAvatar(
-                                                    gameName: _people[index]
-                                                        ['games'][0]),
-                                                const SizedBox(
-                                                  width: 5,
-                                                ),
-                                                const SubjectTitle(
-                                                    title: "함께 하는 게임 1개")
-                                              ],
-                                              if (_people[index]['games']
-                                                      .length >
-                                                  1) ...[
-                                                SizedBox(
-                                                  width: 52,
-                                                  child: Stack(children: [
-                                                    Positioned(
-                                                        left: 18,
-                                                        child: GameLogoAvatar(
-                                                            gameName: _people[
-                                                                    index]
-                                                                ['games'][1])),
-                                                    Positioned(
-                                                        child: GameLogoAvatar(
-                                                            gameName: _people[
-                                                                    index]
-                                                                ['games'][0])),
-                                                  ]),
-                                                ),
-                                                SubjectTitle(
-                                                    title:
-                                                        "함께 하는 게임 ${_people[index]['games'].length}개")
-                                              ]
-                                            ],
-                                          )
-                                        : const SizedBox()
-                                  ],
-                                ),
-                                _people[index]['isFollow']
-                                    ? FontButton(
-                                        onPressed: () {
-                                          deleteFriendFromMyFriends(_people[index]['id']);
-                                          setState(() {
-                                            _people[index]['isFollow'] = false;
-                                          });
-                                        },
-                                        text: '취소',
-                                        color: ColorPalette.font,
-                                      )
-                                    : FontButton(
-                                        onPressed: () {
-                                          insertFriendsIntoMyFriends(_people[index]['id']);
-                                          setState(() {
-                                            _people[index]['isFollow'] = true;
-                                          });
-                                        },
-                                        text: '친구 추가',
-                                        color: Colors.blueAccent,
-                                      ),
-                              ],
+              const SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 13.0, left: 13.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('$groupName 친구들',
+                        style: const TextStyle(
+                            color: Color.fromARGB(255, 172, 172, 172),
+                            fontSize: 18)),
+                    Row(
+                      children: [
+                        SubjectTitle(title: '${_friends.length.toString()} 명'),
+                        const SizedBox(width: 10),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              ListView.builder(
+                  shrinkWrap: true,
+                  itemExtent: 75.0,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: _friends.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return InkWell(
+                      onTap: () {
+                        Get.toNamed('/users/${_friends[index]['id']}');
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 13.0, left: 13.0),
+                        child: Row(
+                          children: [
+                            FriendAvatar(
+                                image: _friends[index]["profile_image_name"]),
+                            const SizedBox(
+                              width: 13,
                             ),
-                          ),
-                        ],
+                            Expanded(
+                              flex: 8,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Font(
+                                          text: _friends[index]["name"],
+                                          size: 18),
+                                      _friends[index]['games'].length != 0
+                                          ? const SizedBox(
+                                              height: 8,
+                                            )
+                                          : const SizedBox(),
+                                      _friends[index]['games'].length != 0
+                                          ? Row(
+                                              children: [
+                                                if (_friends[index]['games']
+                                                        .length ==
+                                                    1) ...[
+                                                  GameLogoAvatar(
+                                                      gameName: _friends[index]
+                                                          ['games'][0]),
+                                                  const SizedBox(
+                                                    width: 5,
+                                                  ),
+                                                  const SubjectTitle(
+                                                      title: "함께 하는 게임 1개")
+                                                ],
+                                                if (_friends[index]['games']
+                                                        .length >
+                                                    1) ...[
+                                                  SizedBox(
+                                                    width: 52,
+                                                    child: Stack(children: [
+                                                      Positioned(
+                                                          left: 18,
+                                                          child: GameLogoAvatar(
+                                                              gameName: _friends[
+                                                                      index]
+                                                                  ['games'][1])),
+                                                      Positioned(
+                                                          child: GameLogoAvatar(
+                                                              gameName: _friends[
+                                                                      index]
+                                                                  ['games'][0])),
+                                                    ]),
+                                                  ),
+                                                  SubjectTitle(
+                                                      title:
+                                                          "함께 하는 게임 ${_friends[index]['games'].length}개")
+                                                ]
+                                              ],
+                                            )
+                                          : const SizedBox()
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                }),
-          ],
+                    );
+                  }),
+              Padding(
+                padding: const EdgeInsets.only(right: 13.0, left: 13.0, top: 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('알 수도 있는 친구들',
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 172, 172, 172),
+                            fontSize: 18)),
+                    Row(
+                      children: [
+                        SubjectTitle(title: '${_people.length.toString()} 명'),
+                        const SizedBox(width: 10),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              ListView.builder(
+                  shrinkWrap: true,
+                  itemExtent: 75.0,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: _people.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return InkWell(
+                      onTap: () {
+                        Get.toNamed('/users/${_people[index]['id']}');
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 13.0, left: 13.0),
+                        child: Row(
+                          children: [
+                            FriendAvatar(
+                                image: _people[index]["profile_image_name"]),
+                            const SizedBox(
+                              width: 13,
+                            ),
+                            Expanded(
+                              flex: 8,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Font(
+                                          text: _people[index]["name"], size: 18),
+                                      _people[index]['games'].length != 0
+                                          ? const SizedBox(
+                                              height: 8,
+                                            )
+                                          : const SizedBox(),
+                                      _people[index]['games'].length != 0
+                                          ? Row(
+                                              children: [
+                                                if (_people[index]['games']
+                                                        .length ==
+                                                    1) ...[
+                                                  GameLogoAvatar(
+                                                      gameName: _people[index]
+                                                          ['games'][0]),
+                                                  const SizedBox(
+                                                    width: 5,
+                                                  ),
+                                                  const SubjectTitle(
+                                                      title: "함께 하는 게임 1개")
+                                                ],
+                                                if (_people[index]['games']
+                                                        .length >
+                                                    1) ...[
+                                                  SizedBox(
+                                                    width: 52,
+                                                    child: Stack(children: [
+                                                      Positioned(
+                                                          left: 18,
+                                                          child: GameLogoAvatar(
+                                                              gameName: _people[
+                                                                      index]
+                                                                  ['games'][1])),
+                                                      Positioned(
+                                                          child: GameLogoAvatar(
+                                                              gameName: _people[
+                                                                      index]
+                                                                  ['games'][0])),
+                                                    ]),
+                                                  ),
+                                                  SubjectTitle(
+                                                      title:
+                                                          "함께 하는 게임 ${_people[index]['games'].length}개")
+                                                ]
+                                              ],
+                                            )
+                                          : const SizedBox()
+                                    ],
+                                  ),
+                                  _people[index]['isFollow']
+                                      ? FontButton(
+                                          onPressed: () {
+                                            deleteFriendFromMyFriends(_people[index]['id']);
+                                            setState(() {
+                                              _people[index]['isFollow'] = false;
+                                            });
+                                          },
+                                          text: '취소',
+                                          color: ColorPalette.subFont,
+                                        )
+                                      : FontButton(
+                                          onPressed: () {
+                                            insertFriendsIntoMyFriends(_people[index]['id']);
+                                            setState(() {
+                                              _people[index]['isFollow'] = true;
+                                            });
+                                          },
+                                          text: '친구 추가',
+                                          color: Colors.blueAccent,
+                                        ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }),
+            ],
+          ),
         ),
       );
   }

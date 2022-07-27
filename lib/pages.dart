@@ -25,7 +25,7 @@ List<GetPage> pages = [
   GetPage(
       name: '/home',
       page: () => const MainPage(),
-      // transition: Transition.rightToLeft
+      transition: Transition.noTransition
   ),
   GetPage(
       name: '/auth',

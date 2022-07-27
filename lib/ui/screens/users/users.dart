@@ -1,6 +1,6 @@
 import 'package:dor_app/controller/access_token_controller.dart';
 import 'package:dor_app/dio/profile/get_user.dart';
-import 'package:dor_app/ui/screens/profile_loading_screen.dart';
+import 'package:dor_app/ui/screens/home/profile_loading_screen.dart';
 import 'package:dor_app/ui/screens/users/user_friends.dart';
 import 'package:dor_app/ui/screens/users/user_games.dart';
 import 'package:dor_app/ui/screens/users/user_groups.dart';

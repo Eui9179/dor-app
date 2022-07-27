@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../../utils/color_palette.dart';
 import 'dor_logo.dart';
 
-class DorLogoAndName extends StatelessWidget {
-  const DorLogoAndName({Key? key}) : super(key: key);
+class WoojooLogoAndName extends StatelessWidget {
+  const WoojooLogoAndName({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

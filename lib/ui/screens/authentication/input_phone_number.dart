@@ -1,9 +1,11 @@
 import 'package:dor_app/ui/dynamic_widget/button/rounded_button.dart';
 import 'package:dor_app/ui/layout/app_bar/logo_app_bar.dart';
 import 'package:dor_app/utils/color_palette.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../dynamic_widget/font/font.dart';
 
 class InputPhoneNumber extends StatefulWidget {
@@ -78,16 +80,72 @@ class _InputPhoneNumberState extends State<InputPhoneNumber> {
                         ),
                       ),
                     ),
-                    const Text(
-                      "로그인 및 회원가입을 하면 DOR 이용약관에 동의하는 것으로 간주 됩니다. "
-                      "DOR의 회원 정보 처리방식은 개인정보 처리 방침 및 쿠키 정책을 확인해 보세요. "
-                      "계속하기를 누르면 인증코드를 문자 메세지로 전송합니다. "
-                      "인증이 완료된 전화번호는 DOR에 로그인 할 수 있습니다.",
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Color.fromARGB(255, 172, 172, 172),
-                      ),
-                      textAlign: TextAlign.center,
+                    RichText(
+                      text: TextSpan(children: [
+                        const TextSpan(
+                          text: "로그인 및 회원가입을 하면 우주 ",
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: Color.fromARGB(255, 172, 172, 172),
+                          ),
+                        ),
+                        TextSpan(
+                            text: "이용약관",
+                            style: const TextStyle(
+                              fontSize: 13,
+                              color: Colors.blueAccent,
+                            ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                _onTapTOSLaunch();
+                              }),
+                        const TextSpan(
+                          text: "에 동의하는 것으로 간주 됩니다. "
+                              "우주의 회원 정보 처리방식은 개인정보 처리 방침 및 쿠키 정책을 확인해 보세요. "
+                              "계속하기를 누르면 인증코드를 문자 메세지로 전송합니다. "
+                              "인증이 완료된 전화번호는 우주에 로그인 할 수 있습니다.",
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: Color.fromARGB(255, 172, 172, 172),
+                          ),
+                        ),
+                        TextSpan(
+                            text: "개인정보 처리 방침",
+                            style: const TextStyle(
+                              fontSize: 13,
+                              color: Colors.blueAccent,
+                            ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                _onTapTOSLaunch();
+                              }),
+                        const TextSpan(
+                          text: " 및 ",
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: Color.fromARGB(255, 172, 172, 172),
+                          ),
+                        ),
+                        TextSpan(
+                            text: "쿠키 정책",
+                            style: const TextStyle(
+                              fontSize: 13,
+                              color: Colors.blueAccent,
+                            ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                _onTapTOSLaunch();
+                              }),
+                        const TextSpan(
+                          text: "을 확인해 보세요. "
+                              "계속하기를 누르면 인증코드를 문자 메세지로 전송합니다. "
+                              "인증이 완료된 전화번호는 우주에 로그인 할 수 있습니다.",
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: Color.fromARGB(255, 172, 172, 172),
+                          ),
+                        ),
+                      ]),
                     ),
                     const SizedBox(height: 50),
                     RoundedButton(
@@ -106,4 +164,5 @@ class _InputPhoneNumberState extends State<InputPhoneNumber> {
     _formKey.currentState!.save();
     Get.toNamed('/auth/verification', arguments: _phoneNumber);
   }
+  void _onTapTOSLaunch() => launchUrl(Uri.parse('https://dor.gg/policy'));
 }

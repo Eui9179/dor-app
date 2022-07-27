@@ -1,16 +1,18 @@
-List<String> getDorGameList(){
+List<String> getDorGameList() {
   return [
     "leagueoflegends",
-    "fifaonline4",
     "battleground",
-    // "suddenattack",
     "lostark",
+    // "suddenattack",
+    "fallguys",
     "minecraft",
     "valorant",
-    "maplestory",
-    "tft",
+    "roblox",
     "overwatch",
-    // "starcraft",
+    "maplestory",
+    "fifaonline4",
+    "tft",
+    "starcraft",
     "starcraft2",
     // "hearthstone",
     // "dungeonandfighter",
@@ -19,7 +21,6 @@ List<String> getDorGameList(){
     // "fortnite",
     // "gta5",
     // "dota2",
-    // "fallguys",
     // "callofduty",
     // "worldofwarcraft",
     // "diablo2",
@@ -74,6 +75,8 @@ String changeKorGameName(gameName) {
       return "던전앤파이터";
     case "diablo2":
       return "디아블로2";
+    case "roblox":
+      return "로블록스";
     default:
       return "게임";
   }

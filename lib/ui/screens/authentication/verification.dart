@@ -20,6 +20,7 @@ class Verification extends StatefulWidget {
 
 class _VerificationState extends State<Verification> {
   final String _phoneNumber = Get.arguments;
+
   _VerificationState({Key? key});
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -78,7 +79,11 @@ class _VerificationState extends State<Verification> {
               const SizedBox(
                 height: 5,
               ),
-              const Font(text: "메세지 도착까지 최대 1분정도 소요됩니다.", size: 10),
+              const Text("메세지 도착까지 최대 1분정도 소요됩니다.\n메세지가 도착하지 않을 경우 재실행 시켜주세요.",
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: ColorPalette.subFont,
+                  )),
               Form(
                 key: _formKey,
                 child: Column(
@@ -118,16 +123,16 @@ class _VerificationState extends State<Verification> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Font(text: _phoneNumber, size: 20),
-                        TextButton(
-                          onPressed: () {
-                            _verifyPhone();
-                          },
-                          child: const Text(
-                            "재전송",
-                            style: TextStyle(
-                                color: Colors.blueAccent, fontSize: 18),
-                          ),
-                        ),
+                        // TextButton(
+                        //   onPressed: () {
+                        //     _verifyPhone();
+                        //   },
+                        //   child: const Text(
+                        //     "재전송",
+                        //     style: TextStyle(
+                        //         color: Colors.blueAccent, fontSize: 18),
+                        //   ),
+                        // ),
                       ],
                     ),
                     const SizedBox(
@@ -180,8 +185,7 @@ class _VerificationState extends State<Verification> {
             .signInWithCredential(PhoneAuthProvider.credential(
                 verificationId: _verificationCode, smsCode: _smsCode))
             .then((value) {
-          Future<Map<String, dynamic>> response =
-              dioApiLogin(_phoneNumber);
+          Future<Map<String, dynamic>> response = dioApiLogin(_phoneNumber);
           response.then((result) {
             int statusCode = result["statusCode"];
             if (statusCode == 200) {
